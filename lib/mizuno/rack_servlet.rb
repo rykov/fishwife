@@ -188,7 +188,7 @@ module Mizuno
             # data out on an async request.
             unless(response.isCommitted)
                 # Set the HTTP status code.
-                response.setStatus(status)
+                response.setStatus(status.to_i)
 
                 # Did we get a Content-Length header?
                 content_length = headers.delete('Content-Length')
