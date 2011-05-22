@@ -1,6 +1,8 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env jruby
 
 raise("Mizuno only runs on JRuby.") unless (RUBY_PLATFORM =~ /java/)
+
+$LOAD_PATH.unshift File.join( File.dirname(__FILE__), "..", "lib" )
 
 require 'rack'
 require 'mizuno'
