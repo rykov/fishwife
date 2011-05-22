@@ -22,4 +22,6 @@ Gem::Specification.new do |spec|
     spec.rubygems_version = '1.3.6'
     spec.add_dependency('rack', '>= 1.0.0')
     spec.add_dependency('rjack-jetty', '~> 7.4')
+    spec.add_dependency('rjack-slf4j', '~> 1.6.1')
+    spec.add_development_dependency('rjack-logback', '~> 1.1')
 end

@@ -7,6 +7,9 @@
 # Java integration for talking to Jetty.
 require 'java'
 
+# Logging interface
+require 'rjack-slf4j'
+
 # Load Jetty JARs.
 require 'rjack-jetty'
 
