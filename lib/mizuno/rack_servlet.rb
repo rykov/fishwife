@@ -14,6 +14,10 @@ module Mizuno
         include_class java.io.FileInputStream
         include_class org.eclipse.jetty.continuation.ContinuationSupport
 
+        def initialize
+            @log = RJack::SLF4J[ self.class ]
+        end
+
         #
         # Sets the Rack application that handles requests sent to this
         # servlet container.
@@ -79,6 +83,13 @@ module Mizuno
 
             # If we got here, this is a continuation.
             continuation.suspend(response)
+
+        rescue NativeException => n
+            @log.error( "On service (native):", n )
+            raise n.cause
+        rescue Exception => e
+            @log.error( "On service:", e )
+            raise e
         end
 
         private
