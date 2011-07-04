@@ -132,9 +132,14 @@ module Mizuno
             env['rack.run_once'] = false
 
             # Populate the HTTP headers.
-            request.getHeaderNames.each do |header_name|
+            hn = request.getHeaderNames
+            if hn.respond_to?( :each )
+              hn.each do |header_name|
                 header = header_name.upcase.tr('-', '_')
                 env["HTTP_#{header}"] = request.getHeader(header_name)
+              end
+            else
+              @log.warn( "Weird headers: [#{ hn.to_s }]" )
             end
 
             # Rack Weirdness: HTTP_CONTENT_TYPE and HTTP_CONTENT_LENGTH
