@@ -157,6 +157,4 @@ describe Mizuno do
         lock.synchronize { buffer.count.should == 10 }
     end
 
-    pending "logs to a custom logger" do
-    end
 end

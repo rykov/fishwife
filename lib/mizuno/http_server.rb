@@ -8,14 +8,6 @@ module Mizuno
         include_class 'org.eclipse.jetty.servlet.DefaultServlet'
 
         #
-        # Provide accessors so we can set a custom logger and a location
-        # for static assets.
-        #
-        class << self
-            attr_accessor :logger
-        end
-
-        #
         # Start up an instance of Jetty, running a Rack application.
         # Options can be any of the follwing, and are not
         # case-sensitive:
