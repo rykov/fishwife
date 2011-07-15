@@ -85,7 +85,7 @@ module Mizuno
             continuation.suspend(response)
 
         rescue NativeException => n
-            @log.warn( "On service (native): #{n.cause}" )
+            @log.warn( "On service (native): #{n.cause.to_string}" )
             raise n.cause
         rescue Exception => e
             @log.error( "On service: #{e}" )
