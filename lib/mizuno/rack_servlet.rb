@@ -14,6 +14,10 @@ module Mizuno
         include_class java.io.FileInputStream
         include_class org.eclipse.jetty.continuation.ContinuationSupport
 
+        def initialize
+            @log = RJack::SLF4J[ self.class ]
+        end
+
         #
         # Sets the Rack application that handles requests sent to this
         # servlet container.
@@ -79,6 +83,13 @@ module Mizuno
 
             # If we got here, this is a continuation.
             continuation.suspend(response)
+
+        rescue NativeException => n
+            @log.warn( "On service (native): #{n.cause.to_string}" )
+            raise n.cause
+        rescue Exception => e
+            @log.error( "On service: #{e}" )
+            raise e
         end
 
         private
@@ -121,9 +132,14 @@ module Mizuno
             env['rack.run_once'] = false
 
             # Populate the HTTP headers.
-            request.getHeaderNames.each do |header_name|
+            hn = request.getHeaderNames
+            if hn.respond_to?( :each )
+              hn.each do |header_name|
                 header = header_name.upcase.tr('-', '_')
                 env["HTTP_#{header}"] = request.getHeader(header_name)
+              end
+            else
+              @log.warn( "Weird headers: [#{ hn.to_s }]" )
             end
 
             # Rack Weirdness: HTTP_CONTENT_TYPE and HTTP_CONTENT_LENGTH
