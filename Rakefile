@@ -16,7 +16,8 @@ t.specify do |h|
 
   h.extra_deps     += [ [ 'rack',          '~> 1.3.1' ],
                         [ 'rjack-jetty',   '~> 7.4.3' ] ]
-  h.extra_dev_deps += [ [ 'rjack-logback', '~> 1.2.0' ] ]
+  h.extra_dev_deps += [ [ 'rjack-logback', '~> 1.2.0' ],
+                        [ 'rspec',         '~> 2.6.0' ] ]
 end
 
 # Version/date consistency checks:
