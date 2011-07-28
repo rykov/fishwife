@@ -1,6 +1,0 @@
-Manifest
-Rakefile
-bin/mizuno
-lib/rack/handler/mizuno/http_server.rb
-lib/rack/handler/mizuno/rack_servlet.rb
-lib/rack/handler/mizuno.rb
