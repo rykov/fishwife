@@ -103,7 +103,8 @@ module Mizuno
 
             # Map Servlet bits to Rack bits.
             env['REQUEST_METHOD'] = request.getMethod
-            env['QUERY_STRING'] = request.getQueryString.to_s
+            qstring = request.getQueryString.to_s #or empty string
+            env['QUERY_STRING'] = qstring
             env['SERVER_NAME'] = request.getServerName
             env['SERVER_PORT'] = request.getServerPort.to_s
             env['rack.version'] = Rack::VERSION
@@ -119,12 +120,18 @@ module Mizuno
             env['SCRIPT_NAME'] = ""
 
             # Rack says URI, but it hands off a URL.
-            env['REQUEST_URI'] = request.getRequestURL.toString
+            req_uri = request.getRequestURL.toString
 
             # Java chops off the query string, but a Rack application will
             # expect it, so we'll add it back if present
-            env['REQUEST_URI'] << "?#{env['QUERY_STRING']}" \
-                if env['QUERY_STRING']
+            req_uri << '?' << qstring unless qstring.empty?
+            env['REQUEST_URI'] = req_uri
+
+            # CONTENT_TYPE/LENGTH are handled specifically, not in headers.
+            ctype = request.getContentType
+            env['CONTENT_TYPE'] = ctype if ctype && !ctype.empty?
+            clength = request.getContentLength
+            env['CONTENT_LENGTH'] = clength.to_s if clength != -1
 
             # JRuby is like the matrix, only there's no spoon or fork().
             env['rack.multiprocess'] = false
@@ -136,18 +143,12 @@ module Mizuno
             if hn.respond_to?( :each )
               hn.each do |header_name|
                 header = header_name.upcase.tr('-', '_')
-                env["HTTP_#{header}"] = request.getHeader(header_name)
+                next if header == 'CONTENT_TYPE' || header == 'CONTENT_LENGTH'
+                env[ 'HTTP_' + header ] = request.getHeader( header_name )
               end
             else
               @log.warn( "Weird headers: [#{ hn.to_s }]" )
             end
-
-            # Rack Weirdness: HTTP_CONTENT_TYPE and HTTP_CONTENT_LENGTH
-            # both need to have the HTTP_ part dropped.
-            env["CONTENT_TYPE"] = env.delete("HTTP_CONTENT_TYPE") \
-                if env["HTTP_CONTENT_TYPE"]
-            env["CONTENT_LENGTH"] = env.delete("HTTP_CONTENT_LENGTH") \
-                if env["HTTP_CONTENT_LENGTH"]
 
             # The input stream is a wrapper around the Java InputStream.
             env['rack.input'] = request.getInputStream.to_io
