@@ -156,7 +156,7 @@ module Mizuno
             env['rack.errors'] ||= $stderr
 
             # All done, hand back the Rack request.
-            return(env)
+            env
         end
 
         #
@@ -230,6 +230,7 @@ module Mizuno
 
             # All done.
             output.flush
+            false
         end
     end
 end
