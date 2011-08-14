@@ -8,6 +8,7 @@ lib/mizuno/base.rb
 lib/mizuno.rb
 lib/mizuno/http_server.rb
 lib/mizuno/rack_servlet.rb
+lib/rack/handler/mizuno.rb
 spec/mizuno_spec.rb
 spec/spec_helper.rb
 spec/test_app.rb
