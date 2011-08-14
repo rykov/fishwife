@@ -11,7 +11,6 @@ rescue LoadError => e
   require 'rjack-slf4j/simple'
 end
 
-require 'rack'
 require 'mizuno'
 
 server = Rack::Server.new
