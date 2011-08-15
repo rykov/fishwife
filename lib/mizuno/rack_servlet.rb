@@ -14,15 +14,9 @@ module Mizuno
         include_class java.io.FileInputStream
         include_class org.eclipse.jetty.continuation.ContinuationSupport
 
-        def initialize
+        def initialize( app )
+            super()
             @log = RJack::SLF4J[ self.class ]
-        end
-
-        #
-        # Sets the Rack application that handles requests sent to this
-        # servlet container.
-        #
-        def rackup(app)
             @app = app
         end
 

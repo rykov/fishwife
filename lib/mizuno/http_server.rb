@@ -1,72 +1,82 @@
 module Mizuno
-    class HttpServer
-        include_class 'org.eclipse.jetty.server.Server'
-        include_class 'org.eclipse.jetty.servlet.ServletContextHandler'
-        include_class 'org.eclipse.jetty.servlet.ServletHolder'
-        include_class 'org.eclipse.jetty.server.nio.SelectChannelConnector'
-        include_class 'org.eclipse.jetty.util.thread.QueuedThreadPool'
-        include_class 'org.eclipse.jetty.servlet.DefaultServlet'
+  class HttpServer < RJack::Jetty::ServerFactory
 
-        #
-        # Start up an instance of Jetty, running a Rack application.
-        # Options can be any of the follwing, and are not
-        # case-sensitive:
-        #
-        # :host::
-        #     String specifying the IP address to bind to; defaults 
-        #     to 0.0.0.0.
-        #
-        # :port::
-        #     String or integer with the port to bind to; defaults 
-        #     to 9292.
-        #
-        # FIXME: Clean up options hash (all downcase, all symbols)
-        #
-        def self.run(app, options = {})
-            # The Jetty server
-            @server = Server.new
+    attr_accessor :host
 
-            options = Hash[options.map { |o| 
-                [ o[0].to_s.downcase.to_sym, o[1] ] }]
+    # Create the server with specified options:
+    #
+    # :host::
+    #     String specifying the IP address to bind to (default: 0.0.0.0)
+    #
+    # :port::
+    #     String or integer with the port to bind to (default: 9292).
+    #     Jetty picks if given port 0 (and port can be read on return
+    #     from start.)
+    #
+    # :min_threads::
+    #     Minimum number of threads to keep in pool (default: 5)
+    #
+    # :max_threads::
+    #     Maximum threads to create in pool (default: 50)
+    #
+    # :max_idle_time_ms::
+    #     Maximum idle time for a connection in milliseconds (default: 10_000)
+    #
+    # :request_log_file::
+    #     Request log to file name or :stderr (default: nil, no log)
+    def initialize( options = {} )
+      super()
 
-            # Thread pool
-            thread_pool = QueuedThreadPool.new
-            thread_pool.min_threads = 5
-            thread_pool.max_threads = 50
-            @server.set_thread_pool(thread_pool)
+      @server = nil
+      @host = nil
 
-            # Connector
-            connector = SelectChannelConnector.new
-            connector.setPort(options[:port].to_i)
-            connector.setHost(options[:host])
-            @server.addConnector(connector)
+      self.min_threads = 5
+      self.max_threads = 50
+      self.port = 9292
 
-            # Servlet context.
-            context = ServletContextHandler.new(nil, "/", 
-                ServletContextHandler::NO_SESSIONS)
+      options = Hash[ options.map { |o| [ o[0].to_s.downcase.to_sym, o[1] ] } ]
 
-            # The servlet itself.
-            rack_servlet = RackServlet.new
-            rack_servlet.rackup(app)
-            holder = ServletHolder.new(rack_servlet)
-            context.addServlet(holder, "/")
+      # Translate option values from possible Strings
+      [:port, :min_threads, :max_threads, :max_idle_time_ms].each do |k|
+        v = options[k]
+        options[k] = v.to_i if v
+      end
 
-            # Add the context to the server and start.
-            @server.set_handler(context)
+      v = options[ :request_log_file ]
+      options[ :request_log_file ] = v.to_sym if v == 'stderr'
 
-            @server.stop_at_shutdown = true
-            @server.start
-        end
-
-        def self.join
-            @server.join if @server
-        end
-
-        #
-        # Shuts down an embedded Jetty instance.
-        #
-        def self.stop
-            @server.stop
-        end
+      # Apply options as setters
+      options.each do |k,v|
+        setter = "#{k}=".to_sym
+        send( setter, v ) if respond_to?( setter )
+      end
     end
+
+    # Start the server, given rack app to run
+    def start( app )
+      set_context_servlets( '/', { '/*' => RackServlet.new( app ) } )
+
+      @server = create
+      @server.start
+      # Recover the server port in case 0 was given.
+      self.port = @server.connectors[0].local_port
+
+      @server
+    end
+
+    # Join with started server so main thread doesn't exit.
+    def join
+      @server.join if @server
+    end
+
+    # Stop the server to allow graceful shutdown
+    def stop
+      @server.stop if @server
+    end
+
+    def create_connectors
+      super.each { |c| c.host = @host if @host }
+    end
+
+  end
 end
