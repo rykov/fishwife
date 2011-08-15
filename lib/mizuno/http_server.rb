@@ -36,6 +36,16 @@ module Mizuno
 
       options = Hash[ options.map { |o| [ o[0].to_s.downcase.to_sym, o[1] ] } ]
 
+      # Translate option values from possible Strings
+      [:port, :min_threads, :max_threads, :max_idle_time_ms].each do |k|
+        v = options[k]
+        options[k] = v.to_i if v
+      end
+
+      v = options[ :request_log_file ]
+      options[ :request_log_file ] = v.to_sym if v == 'stderr'
+
+      # Apply options as setters
       options.each do |k,v|
         setter = "#{k}=".to_sym
         send( setter, v ) if respond_to?( setter )
