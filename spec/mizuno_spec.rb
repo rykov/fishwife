@@ -26,11 +26,12 @@ describe Mizuno do
         @app = Rack::Lint.new(TestApp.new)
         @options = { :host => '127.0.0.1', :port => 9201 }
         Net::HTTP.version_1_2
-        Mizuno::HttpServer.run(@app, @options)
+        @server = Mizuno::HttpServer.new(@options)
+        @server.start(@app)
     end
 
     after(:all) do
-        Mizuno::HttpServer.stop
+        @server.stop
     end
 
     it "returns 200 OK" do
