@@ -24,8 +24,7 @@ describe Mizuno do
     before(:all) do
         @lock = Mutex.new
         @app = Rack::Lint.new(TestApp.new)
-        @options = { :host => '127.0.0.1', :port => 9201, 
-            :embedded => true }
+        @options = { :host => '127.0.0.1', :port => 9201 }
         Net::HTTP.version_1_2
         Mizuno::HttpServer.run(@app, @options)
     end
