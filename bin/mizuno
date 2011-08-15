@@ -14,5 +14,5 @@ end
 require 'mizuno'
 
 server = Rack::Server.new
-server.options[:server] = 'mizuno'
+server.options[:server] = 'Mizuno'
 server.start

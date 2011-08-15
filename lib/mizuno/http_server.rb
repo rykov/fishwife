@@ -53,15 +53,13 @@ module Mizuno
 
             # Add the context to the server and start.
             @server.set_handler(context)
+
+            @server.stop_at_shutdown = true
             @server.start
+        end
 
-            # Stop the server when we get The Signal.
-            trap("SIGINT") { @server.stop and exit }
-
-            # Join with the server thread, so that currently open file
-            # descriptors don't get closed by accident.
-            # http://www.ruby-forum.com/topic/209252
-            @server.join unless options[:embedded]
+        def self.join
+            @server.join if @server
         end
 
         #
@@ -72,6 +70,3 @@ module Mizuno
         end
     end
 end
-
-# Register ourselves with Rack when this file gets loaded.
-Rack::Handler.register 'mizuno', 'Mizuno::HttpServer'
