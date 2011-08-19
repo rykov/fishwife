@@ -7,7 +7,7 @@
 #     http://java.sun.com/j2ee/sdk_1.3/techdocs/api/javax
 #         /servlet/http/HttpServlet.html
 #
-module Mizuno
+module Fishwife
   include_class javax.servlet.http.HttpServlet
 
   class RackServlet < HttpServlet

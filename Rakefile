@@ -6,9 +6,9 @@ require 'rubygems'
 gem     'rjack-tarpit', '~> 1.3.2'
 require 'rjack-tarpit'
 
-require 'mizuno/base'
+require 'fishwife/base'
 
-t = RJack::TarPit.new( 'mizuno', Mizuno::VERSION )
+t = RJack::TarPit.new( 'fishwife', Fishwife::VERSION )
 
 t.specify do |h|
   h.developer( 'Don Werve', 'don@madwombat.com' )

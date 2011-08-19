@@ -1,1 +1,2 @@
-=== 0.4.0 (TBD)
+=== 1.0.0 (TBD)
+* Initial release, hard-forked from Mizuno 0.4.0

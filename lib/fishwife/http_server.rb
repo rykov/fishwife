@@ -1,4 +1,4 @@
-module Mizuno
+module Fishwife
   class HttpServer < RJack::Jetty::ServerFactory
 
     attr_accessor :host

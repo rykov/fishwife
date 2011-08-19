@@ -4,7 +4,7 @@ require 'thread'
 require 'digest/md5'
 require 'base64'
 
-describe Mizuno do
+describe Fishwife do
   def get(path, headers = {})
     Net::HTTP.start(@options[:host], @options[:port]) do |http|
       request = Net::HTTP::Get.new(path, headers)
@@ -26,7 +26,7 @@ describe Mizuno do
     @app = Rack::Lint.new(TestApp.new)
     @options = { :host => '127.0.0.1', :port => 9201 }
     Net::HTTP.version_1_2
-    @server = Mizuno::HttpServer.new(@options)
+    @server = Fishwife::HttpServer.new(@options)
     @server.start(@app)
   end
 

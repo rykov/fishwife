@@ -1,13 +1,13 @@
-require 'mizuno'
+require 'fishwife'
 
 module Rack
   module Handler
-    # Rack expects Rack::Handler::Mizuno via require 'rack/handler/mizuno'
-    class Mizuno
+    # Rack expects Rack::Handler::Fishwife via require 'rack/handler/fishwife'
+    class Fishwife
 
       # Called by rack to run
       def self.run( app, opts = {} )
-        @server = ::Mizuno::HttpServer.new( opts )
+        @server = ::Fishwife::HttpServer.new( opts )
         @server.start( app )
         @server.join
       end

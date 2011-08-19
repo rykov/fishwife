@@ -1,4 +1,4 @@
-# Load our local copy of Mizuno before anything else.
+# Load our local copy of Fishwife before anything else.
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 # Setup logging
@@ -11,6 +11,6 @@ require 'yaml'
 require 'net/http'
 require 'rack/urlmap'
 require 'rack/lint'
-require 'mizuno'
+require 'fishwife'
 
 Thread.abort_on_exception = true

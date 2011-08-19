@@ -1,6 +1,6 @@
 #!/usr/bin/env jruby
 
-raise("Mizuno only runs on JRuby.") unless (RUBY_PLATFORM =~ /java/)
+raise("Fishwife only runs on JRuby.") unless (RUBY_PLATFORM =~ /java/)
 
 $LOAD_PATH.unshift File.join( File.dirname(__FILE__), "..", "lib" )
 
@@ -11,8 +11,8 @@ rescue LoadError => e
   require 'rjack-slf4j/simple'
 end
 
-require 'mizuno'
+require 'fishwife'
 
 server = Rack::Server.new
-server.options[:server] = 'Mizuno'
+server.options[:server] = 'Fishwife'
 server.start

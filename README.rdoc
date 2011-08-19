@@ -1,8 +1,26 @@
-= Mizuno
+= Fishwife
 
-* http://github.com/matadon/mizuno
+* http://github.com/dekellum/fishwife
 
 == Description
+
+Researching fishing and salting process is supposed to increase the
+fishing jetties output. That is, jetties rack holds 9 fish, with
+Fishing (10%) and Salting Process (30%), their rack should hold 12
+fish.
+
+They will go through the motion of placing more fish in the rack, but
+the program doesn't count more than 9. So, Fishing and Salting Process
+is a waste of research.
+
+Note: One fishing jetty with one fish monger can feed 33% more people
+than one goat farm and one butcher.
+
+-- {tomnobles}[http://www.civcityforums.com/index.php?topic=1672.20;wap2], 2009-10-23
+
+=== Mizuno
+
+Fishwife is a fork of {Mizuno}[https://github.com/matadon/mizuno]
 
 Mizuno is a set of Jetty-powered running shoes for JRuby/Rack. It
 provides a handler for Jetty 7 on JRuby; multithreading, event-driven
@@ -10,56 +28,67 @@ I/O, and async support.
 
 === Features
 
-Mizuno is the fastest option for Rack applications on JRuby:
-
-    Mizuno: 6106.66 req/s (mean)
-    Jetty (via jruby-rack): 2011.67 req/s (mean)
-    Mongrel: 1479.15 req/sec (mean)
-
-Mizuno also supports asynchronous request handling, via the Java Servlet
-3.0 asynchronous processing mechanism
+Mizuno also supports asynchronous request handling, via the Java
+Servlet 3.0 asynchronous processing mechanism
 
 All the speed comes from Jetty 7; Mizuno just ties it to Rack through
 JRuby's Ruby/Java integration layer.
 
-Note that Mizuno is NOT a direct replacement for jruby-rack or Warbler,
-because it doesn't produce WAR files or make any attempt to package a
-Rack application for installation in a Java web container.
-
-There's also a few features that I have yet to implement:
-
-1. Add hooks for realtime monitoring of server performance.
+Note that Mizuno is NOT a direct replacement for jruby-rack or
+Warbler, because it doesn't produce WAR files or make any attempt to
+package a Rack application for installation in a Java web container.
 
 == Synopsis
 
-To use Mizuno with your Rack app:
+To use Fishwife with your Rack app:
 
-    gem install mizuno
+    gem install fishwife
     cd /path/to/my/rack/app
-    mizuno
 
-...and you're off and running.  You don't need to set up a Java web
-container for your Rack application to run under JRuby, because Mizuno
-works just like Mongrel, WEBRick, Thin, or any other standard Rack
-handler.
+    fishwife
+
+-or-
+
+    rackup -s Fishwife
+
+You don't need to set up a Java web container for your Rack
+application to run under JRuby, because Mizuno works just like
+Mongrel, WEBRick, Thin, or any other standard Rack handler.
 
 == Logging
 
-Mizuno requires
+Fishwife requires
 {rjack-slf4j}[http://rjack.rubyforge.org/slf4j/RJack/SLF4J.html] which
 provides a unified interface for Java/Ruby logging. Jetty auto-detect
 SLF4J's presence and logs there. A logging output provider must also
-be loaded. The mizuno script will load
+be loaded. The fishwife script will load
 {rjack-logback}[http://rjack.rubyforge.org/logback/RJack/Logback.html]
 if found or otherwise fall back to `rjack-slf4j/simple`.  If you are
-starting Mizuno through some other means than the mizuno script, you
+starting Fishwife through some other means than the fishwife script, you
 will need to load an output provider (see linked docs.)
 
 == License
 
+Copyright (c) 2011 David Kellum
+
+Licensed under the Apache License, Version 2.0 (the "License"); you
+may not use this file except in compliance with the License.  You
+may obtain a copy of the License at:
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+implied.  See the License for the specific language governing
+permissions and limitations under the License.
+
+=== Mizuno
+
+Copyright (c) 2011 Don Werve
+
 Mizuno is licensed under the Apache Public License, version 2.0; see
-the LICENSE file for details, and was developed on behalf of
-{Mad Wombat Software}[http://www.madwombat.com]
+the LICENSE file for details.
 
 Jetty is dual-licensed under the
 {Eclipse and Apache open-source licenses}[http://www.eclipse.org/jetty/licenses.php],

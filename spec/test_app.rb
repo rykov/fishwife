@@ -1,5 +1,5 @@
 
-# A tiny Rack application for testing the Mizuno webserver.  Each of
+# A tiny Rack application for testing the Fishwife webserver.  Each of
 # the following paths can be used to test webserver behavior:
 #
 # /ping:: Always returns 200 OK.
