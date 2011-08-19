@@ -13,7 +13,7 @@ t = RJack::TarPit.new( 'fishwife', Fishwife::VERSION )
 t.specify do |h|
   h.developer( 'David Kellum', 'dek-oss@gravitext.com' )
 
-  h.extra_deps     += [ [ 'rack',          '~> 1.3.1' ],
+  h.extra_deps     += [ [ 'rack',          '>= 1.2.3', '< 1.4' ],
                         [ 'rjack-jetty',   '~> 7.4.3' ] ]
   h.extra_dev_deps += [ [ 'rjack-logback', '~> 1.2.0' ],
                         [ 'rspec',         '~> 2.6.0' ] ]
