@@ -75,7 +75,9 @@ module Mizuno
     end
 
     def create_connectors
-      super.each { |c| c.host = @host if @host }
+      super.tap do |ctrs|
+        ctrs.first.host = @host if ctrs.first
+      end
     end
 
   end
