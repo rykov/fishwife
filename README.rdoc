@@ -85,7 +85,7 @@ permissions and limitations under the License.
 
 === Mizuno
 
-Copyright (c) 2011 Don Werve
+Copyright (c) 2010-2011 Don Werve
 
 Mizuno is licensed under the Apache Public License, version 2.0; see
 the LICENSE file for details.

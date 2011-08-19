@@ -11,7 +11,6 @@ require 'fishwife/base'
 t = RJack::TarPit.new( 'fishwife', Fishwife::VERSION )
 
 t.specify do |h|
-  h.developer( 'Don Werve', 'don@madwombat.com' )
   h.developer( 'David Kellum', 'dek-oss@gravitext.com' )
 
   h.extra_deps     += [ [ 'rack',          '~> 1.3.1' ],
