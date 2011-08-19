@@ -1,2 +1,10 @@
-=== 1.0.0 (TBD)
-* Initial release, hard-forked from Mizuno 0.4.0
+=== 1.0.0 (2011-8-18)
+* Initial release of fishwife, hard-forked from Mizuno 0.4.0
+* Jetty via rjack-jetty ~> 7.4.5
+* Logging via rjack-slf4j and default output rjack-logback
+* Improved error handling and logging of errors.
+* Fix; setStatus takes an int (PJ Hyett, mizuno: #7)
+* Rewrote HttpServer based on ServerFactory for greater customization,
+  options support.
+* Added Rack::Handler::Fishwife for rackup -s support (mizuno: #13)
+* The gem has dependencies
