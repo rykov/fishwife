@@ -15,7 +15,7 @@ t.specify do |h|
   h.summary = "A hard working Jetty 7 based rack handler."
 
   h.extra_deps     += [ [ 'rack',          '>= 1.2.3', '< 1.4' ],
-                        [ 'rjack-jetty',   '~> 7.4.5' ] ]
+                        [ 'rjack-jetty',   '>= 7.4.5', '< 7.6' ] ]
   h.extra_dev_deps += [ [ 'rjack-logback', '~> 1.2.0' ],
                         [ 'rspec',         '~> 2.6.0' ] ]
 end
