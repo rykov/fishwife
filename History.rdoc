@@ -1,4 +1,7 @@
 === 1.1.0 (TBD)
+* Upgrade to jetty ~> 7.5.0
+* Upgrade to rack ~> 1.3.2 (compatible with released rails 3.1.0+)
+* Upgrade to rjack-tarpit ~> 1.3.3 (dev)
 
 === 1.0.0 (2011-8-18)
 * Initial release of fishwife, hard-forked from Mizuno 0.4.0
