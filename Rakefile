@@ -3,7 +3,7 @@
 $LOAD_PATH << './lib'
 
 require 'rubygems'
-gem     'rjack-tarpit', '~> 1.3.2'
+gem     'rjack-tarpit', '~> 1.3.3'
 require 'rjack-tarpit'
 
 require 'fishwife/base'
@@ -14,8 +14,8 @@ t.specify do |h|
   h.developer( 'David Kellum', 'dek-oss@gravitext.com' )
   h.summary = "A hard working Jetty 7 based rack handler."
 
-  h.extra_deps     += [ [ 'rack',          '>= 1.2.3', '< 1.4' ],
-                        [ 'rjack-jetty',   '~> 7.4.5' ] ]
+  h.extra_deps     += [ [ 'rack',          '~> 1.3.2' ],
+                        [ 'rjack-jetty',   '~> 7.5.0' ] ]
   h.extra_dev_deps += [ [ 'rjack-logback', '~> 1.2.0' ],
                         [ 'rspec',         '~> 2.6.0' ] ]
 end
