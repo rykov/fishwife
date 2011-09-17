@@ -8,7 +8,7 @@ require 'rjack-tarpit'
 
 require 'fishwife/base'
 
-t = RJack::TarPit.new( 'fishwife', Fishwife::VERSION )
+t = RJack::TarPit.new( 'fishwife', Fishwife::VERSION, :java_platform )
 
 t.specify do |h|
   h.developer( 'David Kellum', 'dek-oss@gravitext.com' )
@@ -16,6 +16,7 @@ t.specify do |h|
 
   h.extra_deps     += [ [ 'rack',          '~> 1.3.2' ],
                         [ 'rjack-jetty',   '~> 7.5.0' ] ]
+
   h.extra_dev_deps += [ [ 'rjack-logback', '~> 1.2.0' ],
                         [ 'rspec',         '~> 2.6.0' ] ]
 end
