@@ -200,6 +200,10 @@ module Fishwife
         content_length = headers.delete('Content-Length')
         response.setContentLength(content_length.to_i) if content_length
 
+        # Did we get a Content-Type header?
+        content_type = headers.delete('Content-Type')
+        response.setContentType(content_type) if content_type
+
         # Add all the result headers.
         headers.each { |h, v| response.addHeader(h, v) }
       end
