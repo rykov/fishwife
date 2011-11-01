@@ -1,4 +1,9 @@
 === 1.1.1 (TBD)
+* Set Content-Type via the setContentType method (#2, Adam Zell)
+* Split multiple header values on newline before adding (#2, Adam Zell)
+* Add previously missing rjack-slf4j ~> 1.6.1 dependency.
+* Set gem platform to java.
+* Upgrade to rjack-tarpit ~> 1.4 (dev)
 
 === 1.1.0 (2011-9-4)
 * Upgrade to jetty ~> 7.5.0
