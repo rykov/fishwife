@@ -98,6 +98,12 @@ describe Fishwife do
     content["HTTP_X_MY_HEADER"].should == "Pancakes"
   end
 
+  it "returns multiple values of the same header" do
+    response = get("/multi_headers")
+    response['Warning'].should == "warn-1, warn-2"
+    # Net::HTTP handle multiple headers with join( ", " )
+  end
+
   it "lets the Rack app know it's running as a servlet" do
     response = get("/echo", 'answer' => '42')
     response.code.should == "200"
