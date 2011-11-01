@@ -70,6 +70,10 @@ class TestApp
     response.finish
   end
 
+  def multi_headers(request)
+    [ 204, { "Warning" => %w[ warn-1 warn-2 ].join( "\n" ) }, [] ]
+  end
+
   def push(request)
     message = request.params['message']
 

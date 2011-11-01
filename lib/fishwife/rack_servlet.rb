@@ -205,7 +205,9 @@ module Fishwife
         response.setContentType(content_type) if content_type
 
         # Add all the result headers.
-        headers.each { |h, v| response.addHeader(h, v) }
+        headers.each do |h, v|
+          v.split("\n").each { |val| response.addHeader(h, val) }
+        end
       end
 
       # How else would we write output?
