@@ -28,8 +28,8 @@ module Fishwife
   java_import 'javax.servlet.http.HttpServlet'
 
   class RackServlet < HttpServlet
-    include_class java.io.FileInputStream
-    include_class org.eclipse.jetty.continuation.ContinuationSupport
+    java_import 'java.io.FileInputStream'
+    java_import 'org.eclipse.jetty.continuation.ContinuationSupport'
 
     def initialize( app )
       super()
