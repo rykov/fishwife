@@ -25,7 +25,7 @@
 #         /servlet/http/HttpServlet.html
 #
 module Fishwife
-  include_class javax.servlet.http.HttpServlet
+  java_import 'javax.servlet.http.HttpServlet'
 
   class RackServlet < HttpServlet
     include_class java.io.FileInputStream
