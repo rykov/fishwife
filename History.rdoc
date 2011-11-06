@@ -1,4 +1,4 @@
-=== 1.1.1 (TBD)
+=== 1.1.1 (2011-11-5)
 * Set Content-Type via the setContentType method (#2, Adam Zell)
 * Split multiple header values on newline before adding (#2, Adam Zell)
 * Prefer java_import to include_class (#3, Adam Zell)
