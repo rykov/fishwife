@@ -134,7 +134,7 @@ module Mizuno
                 if env["HTTP_CONTENT_LENGTH"]
 
             # The input stream is a wrapper around the Java InputStream.
-            env['rack.input'] = request.getInputStream.to_io
+            env['rack.input'] = request.getInputStream.to_io.binmode
 
             # The output stream defaults to stderr.
             env['rack.errors'] ||= $stderr
