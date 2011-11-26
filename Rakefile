@@ -18,7 +18,7 @@ t.specify do |h|
                         [ 'rjack-jetty',   '>= 7.5.2', '< 7.7' ],
                         [ 'rjack-slf4j',   '~> 1.6.1' ] ]
 
-  h.extra_dev_deps += [ [ 'rjack-logback', '~> 1.2.0' ],
+  h.extra_dev_deps += [ [ 'rjack-logback', '~> 1.2' ],
                         [ 'rspec',         '~> 2.6.0' ] ]
 end
 
