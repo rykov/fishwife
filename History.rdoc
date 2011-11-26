@@ -1,3 +1,5 @@
+=== 1.2.0 (TBD)
+
 === 1.1.1 (2011-11-5)
 * Set Content-Type via the setContentType method (#2, Adam Zell)
 * Split multiple header values on newline before adding (#2, Adam Zell)
