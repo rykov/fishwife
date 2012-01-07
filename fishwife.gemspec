@@ -19,7 +19,7 @@ RJack::TarPit.specify do |s|
   s.depend 'rjack-slf4j',           '~> 1.6.1'
 
   s.depend 'rjack-logback',         '~> 1.2',       :dev
-  s.depend 'rspec',                 '~> 2.6.0',     :dev
+  s.depend 'rspec',                 '~> 2.8.0',     :dev
 
   s.platform = :java
 
