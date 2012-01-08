@@ -1,13 +1,10 @@
 # -*- ruby -*- encoding: utf-8 -*-
 
-gem 'rjack-tarpit', '~> 2.0.a'
+gem 'rjack-tarpit', '~> 2.0'
 require 'rjack-tarpit/spec'
 
-$LOAD_PATH.unshift( File.join( File.dirname( __FILE__ ), 'lib' ) )
-
-require 'fishwife/base'
-
 RJack::TarPit.specify do |s|
+  require 'fishwife/base'
 
   s.version  = Fishwife::VERSION
   s.summary = "A hard working Jetty 7 based rack handler."
@@ -22,5 +19,4 @@ RJack::TarPit.specify do |s|
   s.depend 'rspec',                 '~> 2.8.0',     :dev
 
   s.platform = :java
-
 end
