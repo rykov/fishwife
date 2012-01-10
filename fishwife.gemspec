@@ -6,7 +6,7 @@ require 'rjack-tarpit/spec'
 RJack::TarPit.specify do |s|
   require 'fishwife/base'
 
-  s.version  = Fishwife::VERSION
+  s.version = Fishwife::VERSION
   s.summary = "A hard working Jetty 7 based rack handler."
 
   s.add_developer( 'David Kellum', 'dek-oss@gravitext.com' )
