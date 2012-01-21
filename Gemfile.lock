@@ -42,6 +42,7 @@ PLATFORMS
 
 DEPENDENCIES
   fishwife!
+  json (~> 1.6.4)
   rjack-logback (~> 1.2)
   rjack-tarpit (~> 2.0)
   rspec (~> 2.8.0)

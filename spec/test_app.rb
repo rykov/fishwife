@@ -15,6 +15,8 @@
 # permissions and limitations under the License.
 #++
 
+require 'json'
+
 # A tiny Rack application for testing the Fishwife webserver.  Each of
 # the following paths can be used to test webserver behavior:
 #
@@ -66,7 +68,7 @@ class TestApp
   def echo(request)
     response = Rack::Response.new
     env = request.env.merge('request.params' => request.params)
-    response.write(env.to_yaml)
+    response.write(env.to_json)
     response.finish
   end
 

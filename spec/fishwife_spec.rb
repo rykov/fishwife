@@ -20,6 +20,7 @@ require 'test_app'
 require 'thread'
 require 'digest/md5'
 require 'base64'
+require 'json'
 
 describe Fishwife do
   def get(path, headers = {})
@@ -69,7 +70,7 @@ describe Fishwife do
   it "sets Rack headers" do
     response = get("/echo")
     response.code.should == "200"
-    content = YAML.load(response.body)
+    content = JSON.parse(response.body)
     content["rack.version"].should == [ 1, 1 ]
     content["rack.multithread"].should be_true
     content["rack.multiprocess"].should be_false
@@ -79,7 +80,7 @@ describe Fishwife do
   it "passes form variables via GET" do
     response = get("/echo?answer=42")
     response.code.should == "200"
-    content = YAML.load(response.body)
+    content = JSON.parse(response.body)
     content['request.params']['answer'].should == '42'
   end
 
@@ -87,14 +88,14 @@ describe Fishwife do
     question = "What is the answer to life, the universe, and everything?"
     response = post("/echo", 'question' => question)
     response.code.should == "200"
-    content = YAML.load(response.body)
+    content = JSON.parse(response.body)
     content['request.params']['question'].should == question
   end
 
   it "passes custom headers" do
     response = get("/echo", "X-My-Header" => "Pancakes")
     response.code.should == "200"
-    content = YAML.load(response.body)
+    content = JSON.parse(response.body)
     content["HTTP_X_MY_HEADER"].should == "Pancakes"
   end
 
@@ -107,7 +108,7 @@ describe Fishwife do
   it "lets the Rack app know it's running as a servlet" do
     response = get("/echo", 'answer' => '42')
     response.code.should == "200"
-    content = YAML.load(response.body)
+    content = JSON.parse(response.body)
     content['rack.java.servlet'].should be_true
   end
 
@@ -118,14 +119,14 @@ describe Fishwife do
 
   it "sets the server port and hostname" do
     response = get("/echo")
-    content = YAML.load(response.body)
+    content = JSON.parse(response.body)
     content["SERVER_PORT"].should == "9201"
     content["SERVER_NAME"].should == "127.0.0.1"
   end
 
   it "passes the URI scheme" do
     response = get("/echo")
-    content = YAML.load(response.body)
+    content = JSON.parse(response.body)
     content['rack.url_scheme'].should == 'http'
   end
 
