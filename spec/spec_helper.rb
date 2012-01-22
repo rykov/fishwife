@@ -15,8 +15,8 @@
 # permissions and limitations under the License.
 #++
 
-# Load our local copy of Fishwife before anything else.
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'rubygems'
+require 'bundler/setup'
 
 # Setup logging
 require 'rjack-logback'
