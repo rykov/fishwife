@@ -31,6 +31,8 @@ module Fishwife
     java_import 'java.io.FileInputStream'
     java_import 'org.eclipse.jetty.continuation.ContinuationSupport'
 
+    ASCII_8BIT = Encoding.find( "ASCII-8BIT" ) if defined?( Encoding )
+
     def initialize( app )
       super()
       @log = RJack::SLF4J[ self.class ]
@@ -158,7 +160,9 @@ module Fishwife
       end
 
       # The input stream is a wrapper around the Java InputStream.
-      env['rack.input'] = request.getInputStream.to_io.binmode
+      input = request.getInputStream.to_io.binmode
+      input.set_encoding( ASCII_8BIT ) if input.respond_to?( :set_encoding )
+      env['rack.input'] = input
 
       # The output stream defaults to stderr.
       env['rack.errors'] ||= $stderr
