@@ -1,4 +1,4 @@
-=== 1.2.0 (TBD)
+=== 1.2.0 (2012-1-29)
 * Upgrade, widen to rjack-jetty >= 7.5.4, < 7.7 (incl. 7.6.0.0 release)
 * Fixed, tests passing in 1.9 mode; at least with jruby pre-release
   1.6.6.RC1, git: 333c503 (Don Werve)
