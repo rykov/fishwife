@@ -161,6 +161,7 @@ describe Fishwife do
   end
 
   it "handles async requests" do
+    pending "Causes intermittent 30s pauses, TestApp.push/pull is sketchy"
     lock = Mutex.new
     buffer = Array.new
 
