@@ -16,6 +16,8 @@
 
 package fishwife;
 
+import static org.jruby.exceptions.RaiseException.createNativeRaiseException;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,7 +28,6 @@ import org.jruby.RubyObject;
 import org.jruby.RubyString;
 import org.jruby.anno.JRubyClass;
 import org.jruby.anno.JRubyMethod;
-import org.jruby.exceptions.RaiseException;
 import org.jruby.javasupport.util.RuntimeHelpers;
 import org.jruby.runtime.Arity;
 import org.jruby.runtime.Block;
@@ -72,12 +73,10 @@ public class OutputUtil
             }
         }
         catch( FileNotFoundException x ) {
-            throw RaiseException.
-                createNativeRaiseException( tc.getRuntime(), x );
+            throw createNativeRaiseException( tc.getRuntime(), x );
         }
         catch( IOException x ) {
-            throw RaiseException.
-                createNativeRaiseException( tc.getRuntime(), x );
+            throw createNativeRaiseException( tc.getRuntime(), x );
         }
     }
 
@@ -127,7 +126,7 @@ public class OutputUtil
                 return _runtime.getNil();
             }
             catch( IOException x ) {
-                throw RaiseException.createNativeRaiseException( _runtime, x );
+                throw createNativeRaiseException( _runtime, x );
             }
         }
 
