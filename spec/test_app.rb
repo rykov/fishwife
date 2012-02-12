@@ -104,12 +104,11 @@ class TestApp
   end
 
   def download(request)
-    file = File.new('spec/data/reddit-icon.png', 'r')
-    response = Rack::Response.new(file)
-    response['Content-Type'] = 'image/png'
-    response['Content-Disposition'] =
-      'attachment; filename=reddit-icon.png'
-    response.finish
+    file = File.new( File.dirname( __FILE__ ) + "/data/reddit-icon.png" )
+    def file.to_path
+      path
+    end
+    [ 200, { "Content-Type" => "image/png" }, file ]
   end
 
   def upload(request)

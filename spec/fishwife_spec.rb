@@ -50,6 +50,7 @@ describe Fishwife do
 
   after(:all) do
     @server.stop
+    @server.join
   end
 
   it "returns 200 OK" do
@@ -134,8 +135,6 @@ describe Fishwife do
     response = get("/download")
     response.code.should == "200"
     response['Content-Type'].should == 'image/png'
-    response['Content-Disposition'].should ==
-      'attachment; filename=reddit-icon.png'
     checksum = Digest::MD5.hexdigest(response.body)
     checksum.should == '8da4b60a9bbe205d4d3699985470627e'
   end

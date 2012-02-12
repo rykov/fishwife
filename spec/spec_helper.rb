@@ -31,3 +31,20 @@ require 'rack/lint'
 require 'fishwife'
 
 Thread.abort_on_exception = true
+
+# Adjust Rack::Lint to not interfere with File body.to_path
+class Rack::Lint
+
+  def respond_to?( mth )
+    if mth == :to_path
+      @body.respond_to?( :to_path )
+    else
+      super
+    end
+  end
+
+  def to_path
+    @body.to_path
+  end
+
+end
