@@ -3,8 +3,10 @@ LICENSE
 Manifest.txt
 README.rdoc
 Rakefile
+pom.xml
 bin/fishwife
 example/config.ru
+example/giant.ru
 lib/fishwife/base.rb
 lib/fishwife.rb
 lib/fishwife/http_server.rb
