@@ -19,5 +19,5 @@ RJack::TarPit.specify do |s|
   s.depend 'rjack-logback',         '~> 1.2',       :dev
   s.depend 'rspec',                 '~> 2.8.0',     :dev
 
-  s.platform = :java
+  s.maven_strategy = :no_assembly
 end
