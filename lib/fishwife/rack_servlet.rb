@@ -15,6 +15,9 @@
 # permissions and limitations under the License.
 #++
 
+# Magic loader hook -> JRubyService
+require 'fishwife/JRuby'
+
 #
 # Wraps a Rack application in a Java servlet.
 #
@@ -214,29 +217,20 @@ module Fishwife
         end
       end
 
-      # How else would we write output?
       output = response.getOutputStream
 
-      # Turn the body into something nice and Java-y.
-      if(body.respond_to?(:to_path))
-        # We've been told to serve a file; use FileInputStream to
-        # stream the file directly to the servlet, because this is a
-        # lot faster than doing it with Ruby.
-        file = java.io.File.new(body.to_path)
+      if body.respond_to?( :to_path )
 
-        # We set the content-length so we can use Keep-Alive, unless
-        # this is an async request.
-        response.setContentLength(file.length) unless content_length
+        path = body.to_path
 
-        # Stream the file directly.
-        buffer = Java::byte[4096].new
-        input_stream = FileInputStream.new(file)
-        while((count = input_stream.read(buffer)) != -1)
-          output.write(buffer, 0, count)
-        end
-        input_stream.close
+        # Set Content-Length unless this is an async request.
+        response.setContentLength( File.size( path ) ) unless content_length
+
+        # FIXME: Support ranges?
+
+        OutputUtil.write_file( path, output )
       else
-        body.each { |l| output.write(l.to_java_bytes) }
+        OutputUtil.write_body( body, output )
       end
 
       # Close the body if we're supposed to.

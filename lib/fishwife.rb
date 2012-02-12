@@ -23,6 +23,12 @@ require 'rjack-slf4j'
 # Load Jetty JARs.
 require 'rjack-jetty'
 
+require 'fishwife/base'
+
+module Fishwife
+  require "#{LIB_DIR}/fishwife-#{VERSION}.jar"
+end
+
 require 'rack'
 require 'fishwife/rack_servlet'
 require 'fishwife/http_server'
