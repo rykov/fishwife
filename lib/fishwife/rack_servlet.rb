@@ -132,7 +132,7 @@ module Fishwife
       env['SCRIPT_NAME'] = ""
 
       # Rack says URI, but it hands off a URL.
-      req_uri = request.getRequestURL.toString
+      req_uri = request.getRequestURL.to_s
 
       # Java chops off the query string, but a Rack application will
       # expect it, so we'll add it back if present
