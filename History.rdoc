@@ -1,4 +1,7 @@
-=== 1.3.2 (TBD)
+=== 1.3.2 (2012-10-22)
+* Fix an issue with StringBuffer.toString access, JRuby 1.7.0
+  (release), and invoke dynamic (AKA +indy), on by default only with
+  JDK 1.8. The issue and workaround was identified in mizuno #23. (Adam Zell)
 
 === 1.3.1 (2012-9-15)
 * Upgrade/broaden to slf4j [1.6.5,1.8), logback ~> 1.2 (dev)
