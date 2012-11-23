@@ -90,7 +90,7 @@ module Fishwife
       @server.stop if @server
     end
 
-    def create_connectors
+    def create_connectors( *args )
       super.tap do |ctrs|
         ctrs.first.host = @host if ctrs.first
       end
