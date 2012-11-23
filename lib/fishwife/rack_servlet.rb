@@ -237,7 +237,7 @@ module Fishwife
       body.close if body.respond_to?(:close)
 
       # All done.
-      output.flush
+      output.close
       false
     end
   end
