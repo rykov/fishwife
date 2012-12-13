@@ -1,4 +1,8 @@
-=== 1.4.0 (TBD)
+=== 1.4.0 (2012-12-13)
+* Upgrade/broaden to rjack-jetty [7.6.7,9.1). This includes 9.0.0.0
+  based on upstream M3, a milestone pre-release.
+* Jetty 9 seems to prefer a output stream close at end of request,
+  instead of just a flush. Jetty 7 is fine with it as well.
 
 === 1.3.2 (2012-10-22)
 * Fix an issue with StringBuffer.toString access, JRuby 1.7.0
