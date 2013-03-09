@@ -1,4 +1,8 @@
 === 1.5.0 (TBD)
+* Upgrade to rack ~> 1.5.2
+* Upgrade to rjack-jetty ~> 9.0.0 (>= 9.0.0.5/v20130308 release)
+* Upgrade/narrow to rjack-slf4j ~> 1.7.2, -logback ~> 1.2 (dev)
+* Upgrade to json ~> 1.7.7, rspec ~> 2.13.0 (dev)
 
 === 1.4.0 (2012-12-13)
 * Upgrade/broaden to rjack-jetty [7.6.7,9.1). This includes 9.0.0.0
