@@ -15,8 +15,33 @@
 #++
 
 require 'fishwife'
+require 'rack/server'
+require 'rack/chunked'
 
 module Rack
+
+  class Server
+    alias orig_middleware middleware
+
+    # Override to remove Rack::Chunked middleware from defaults of any
+    # environment. Rack::Chunked doesn't play nice with Jetty which
+    # does its own chunking. Unfortunately rack doesn't have a better
+    # way to indicate this incompatibility.
+    def middleware
+      mw = Hash.new { |h,k| h[k] = [] }
+      orig_middleware.each do |env, wares|
+        mw[ env ] = cream( wares )
+      end
+      mw
+    end
+
+    def cream( wares )
+      wares.reject do |w|
+        w == Rack::Chunked || ( w.is_a?( Array ) && w.first == Rack::Chunked )
+      end
+    end
+  end
+
   module Handler
     # Rack expects Rack::Handler::Fishwife via require 'rack/handler/fishwife'
     class Fishwife
