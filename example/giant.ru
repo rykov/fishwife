@@ -1,5 +1,5 @@
-#\ -s Fishwife -p 9297 -E production
 # -*- ruby -*-
+#\ -s Fishwife -p 9297 -E production
 
 require 'rjack-logback'
 RJack::Logback.config_console( :stderr => true, :thread => true )
