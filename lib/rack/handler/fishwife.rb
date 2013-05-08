@@ -42,6 +42,17 @@ module Rack
     end
   end
 
+  # Use of `rackup` may still include Rack::Chunked given load order.
+  # Override chunk as No-Op.
+  class Chunked
+    def initialize( app )
+      @app = app
+    end
+    def call( env )
+      @app.call( env )
+    end
+  end
+
   module Handler
     # Rack expects Rack::Handler::Fishwife via require 'rack/handler/fishwife'
     class Fishwife
