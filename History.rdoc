@@ -12,6 +12,9 @@
   using Sinatra or comparable, including `use Rack::ContentLength` is
   advisable.
 
+* Also make Rack::Chunked a no-op, given `rackup` load order or other
+  cases where used.
+
 === 1.5.0 (2013-3-9)
 * Upgrade to rack ~> 1.5.2
 * Upgrade to rjack-jetty ~> 9.0.0 (>= 9.0.0.5/v20130308 release)
