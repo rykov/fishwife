@@ -1,4 +1,16 @@
 === 1.4.1 (TBD)
+* Override Rack::Server to disable the default inclusion of
+  Rack::Chunked middleware with "development" or "deployment"
+  environments. Otherwise Jetty may treat the chunked transfer-encoded
+  body as literal. The Rack::Server is used for example, when started
+  via `fishwife` or `rackup`. Note: Sinatra 1.4.x now honors these
+  middleware, exposing this problem as fishwife #5.
+
+  Also note that Rack::ContentLength is included by default with these
+  same environments, but is not included in other environments or
+  startup paths. Sinatra ensures the Content-Length itself. If not
+  using Sinatra or comparable, including `use Rack::ContentLength` is
+  advisable.
 
 === 1.4.0 (2012-12-13)
 * Upgrade/broaden to rjack-jetty [7.6.7,9.1). This includes 9.0.0.0
