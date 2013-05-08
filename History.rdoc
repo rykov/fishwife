@@ -1,4 +1,4 @@
-=== 1.4.1 (TBD)
+=== 1.4.1 (2013-5-7)
 * Override Rack::Server to disable the default inclusion of
   Rack::Chunked middleware with "development" or "deployment"
   environments. Otherwise Jetty may treat the chunked transfer-encoded
