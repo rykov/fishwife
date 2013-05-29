@@ -1,6 +1,7 @@
 = Fishwife
 
 * http://github.com/dekellum/fishwife
+* {<img src="https://travis-ci.org/dekellum/fishwife.png" />}[https://travis-ci.org/dekellum/fishwife]
 
 == Description
 
