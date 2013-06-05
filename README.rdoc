@@ -1,60 +1,53 @@
 = Fishwife
 
 * http://github.com/dekellum/fishwife
-* {<img src="https://travis-ci.org/dekellum/fishwife.png" />}[https://travis-ci.org/dekellum/fishwife]
+* Travis CI: {<img src="https://travis-ci.org/dekellum/fishwife.png" />}[https://travis-ci.org/dekellum/fishwife]
 
 == Description
 
-Researching fishing and salting process is supposed to increase the
-fishing jetties output. That is, jetties rack holds 9 fish, with
-Fishing (10%) and Salting Process (30%), their rack should hold 12
-fish.
+A hard working threaded HTTP 1.1 Rack server for JRuby using
+{Jetty}[http://www.eclipse.org/jetty/] 7.x or 9.x. Fishwife deploys
+and operates like other Ruby HTTP servers/rack handlers such as
+Mongrel or Puma. No Java legacy war files (e.g. warbler) required.
 
-They will go through the motion of placing more fish in the rack, but
-the program doesn't count more than 9. So, Fishing and Salting Process
-is a waste of research.
+As compared to similar projects, most notably
+{Mizuno}[https://github.com/matadon/mizuno]
+from which it was originally forked, Fishwife offers the following
+unique features:
 
-Note: One fishing jetty with one fish monger can feed 33% more people
-than one goat farm and one butcher.
+* Depends on the {rjack-jetty}[http://rjack.rubyforge.org/jetty]
+  gem which closely tracks the upstream Jetty project, currently for
+  versions 7.x and 9.x.  You can test and control the version of Jetty
+  you use, for example via Bundler, independent of the Fishwife release.
 
--- {tomnobles}[http://www.civcityforums.com/index.php?topic=1672.20;wap2], 2009-10-23
+* Fishwife may itself be embedded in your own custom server/launcher
+  where you have total control over JVM options like heap size, number
+  of threads, and other initialization/configuration details. For an
+  example, see:
+  {boxed-geminabox}[https://github.com/dekellum/boxed-geminabox#readme].
 
-=== Mizuno
+* Logging is unified across Jetty, Fishwife, and your application via
+  rjack-slf4j and on to any supported output adapter. (See Logging below)
 
-Fishwife is a fork of {Mizuno}[https://github.com/matadon/mizuno]
+* Rack output streaming is optimized in a custom java extension.
 
-Mizuno is a set of Jetty-powered running shoes for JRuby/Rack. It
-provides a handler for Jetty 7-9 on JRuby; multithreading,
-event-driven I/O, and async support.
-
-=== Features
-
-Mizuno also supports asynchronous request handling, via the Java
-Servlet 3.0 asynchronous processing mechanism
-
-All the speed comes from Jetty; Mizuno just ties it to Rack through
-JRuby's Ruby/Java integration layer.
-
-Note that Mizuno is NOT a direct replacement for jruby-rack or
-Warbler, because it doesn't produce WAR files or make any attempt to
-package a Rack application for installation in a Java web container.
+* Simple foreground server. No half-baked process control. Compatible
+  with several real process monitors (See Process Monitoring below)
 
 == Synopsis
 
-To use Fishwife with your Rack app:
+To use Fishwife with your Rack app and config.ru:
 
     gem install fishwife
-    cd /path/to/my/rack/app
 
+    cd /path/to/my/rack/app
     fishwife
 
 -or-
 
     rackup -s Fishwife
 
-You don't need to set up a Java web container for your Rack
-application to run under JRuby, because Mizuno works just like
-Mongrel, WEBRick, Thin, or any other standard Rack handler.
+See included example/config.ru and the note below on logging.
 
 == Logging
 
@@ -67,6 +60,29 @@ be loaded. The fishwife script will load
 if found or otherwise fall back to `rjack-slf4j/simple`.  If you are
 starting Fishwife through some other means than the fishwife script, you
 will need to load an output provider (see linked docs.)
+
+== Process Monitoring
+
+We assume this isn't your only production ruby server and don't
+include any one-off, half-baked process control and monitoring
+features. Note that Unix-like fork(2) is not safe on the JVM and thus
+from JRuby so its not particularly practical to support a fishwife
+--daemon flag. Fishwife simply logs to STDERR by default.  Instead
+consider using:
+
+* Both {Bluepill}[https://github.com/arya/bluepill#readme] and God
+  (MRI Ruby) process monitors support self-forking of foreground
+  processes, for example `rackup` or `fishwife`.
+
+* The {Iyyov}[https://github.com/dekellum/iyyov#readme] (JRuby)
+  process monitor supports self-daemonizing via the hashdot
+  launcher.  Your app can also be packaged/updated as a gem if
+  desired. For an example see:
+  {boxed-geminabox}[https://github.com/dekellum/boxed-geminabox#readme].
+
+All options also support redirecting log output (including any
+JVM-level errors) to a file. Iyyov supports log rotation internally.
+Unix-like logrotate(8) may be used with the former process monitors.
 
 == License
 
@@ -88,8 +104,9 @@ permissions and limitations under the License.
 
 Copyright (c) 2010-2011 Don Werve
 
-Mizuno is licensed under the Apache Public License, version 2.0; see
-the LICENSE file for details.
+Licensed under the Apache Public License, version 2.0.
+
+=== Jetty
 
 Jetty is dual-licensed under the
 {Eclipse and Apache open-source licenses}[http://www.eclipse.org/jetty/licenses.php],
