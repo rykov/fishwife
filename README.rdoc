@@ -24,15 +24,16 @@ unique features:
   where you have total control over JVM options like heap size, number
   of threads, and other initialization/configuration details. For an
   example, see:
-  {boxed-geminabox}[https://github.com/dekellum/boxed-geminabox#readme].
+  {boxed-geminabox}[https://github.com/dekellum/boxed-geminabox#readme]
+  and notes in {#6}[https://github.com/dekellum/fishwife/issues/6].
 
 * Logging is unified across Jetty, Fishwife, and your application via
   rjack-slf4j and on to any supported output adapter. (See Logging below)
 
 * Rack output streaming is optimized in a custom java extension.
 
-* Simple foreground server. No half-baked process control. Compatible
-  with several real process monitors (See Process Monitoring below)
+* Simple foreground server. Compatible with several real process
+  monitors (See Process Monitoring below)
 
 == Synopsis
 
@@ -59,20 +60,21 @@ be loaded. The fishwife script will load
 {rjack-logback}[http://rjack.rubyforge.org/logback/RJack/Logback.html]
 if found or otherwise fall back to `rjack-slf4j/simple`.  If you are
 starting Fishwife through some other means than the fishwife script, you
-will need to load an output provider (see linked docs.)
+will need to load an output provider (see linked docs and notes in
+{#6}[https://github.com/dekellum/fishwife/issues/6]).
 
 == Process Monitoring
 
 We assume this isn't your only production ruby server and don't
 include any one-off, half-baked process control and monitoring
 features. Note that Unix-like fork(2) is not safe on the JVM and thus
-from JRuby so its not particularly practical to support a fishwife
---daemon flag. Fishwife simply logs to STDERR by default.  Instead
-consider using:
+from JRuby so its not practical to support a fishwife --daemon
+flag. Fishwife simply logs to STDERR by default.  Instead consider
+using:
 
-* Both {Bluepill}[https://github.com/arya/bluepill#readme] and God
-  (MRI Ruby) process monitors support self-forking of foreground
-  processes, for example `rackup` or `fishwife`.
+* {Bluepill}[https://github.com/arya/bluepill#readme] or God (MRI
+  Ruby) process monitors support self-forking of foreground processes,
+  for example `rackup` or `fishwife`.
 
 * The {Iyyov}[https://github.com/dekellum/iyyov#readme] (JRuby)
   process monitor supports self-daemonizing via the hashdot
