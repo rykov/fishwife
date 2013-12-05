@@ -1,3 +1,5 @@
+=== 1.5.2 (TBD)
+
 === 1.5.1 (2013-5-7)
 * Override Rack::Server to disable the default inclusion of
   Rack::Chunked middleware with "development" or "deployment"
