@@ -7,7 +7,7 @@ RJack::TarPit.specify do |s|
   require 'fishwife/base'
 
   s.version = Fishwife::VERSION
-  s.summary = "A hard working Jetty 7 based rack handler."
+  s.summary = "A Jetty based Rack HTTP 1.1 server."
 
   s.add_developer( 'David Kellum', 'dek-oss@gravitext.com' )
 
