@@ -15,7 +15,7 @@ As compared to similar projects, most notably
 from which it was originally forked, Fishwife offers the following
 unique features:
 
-* Depends on the {rjack-jetty}[http://rjack.rubyforge.org/jetty]
+* Depends on the {rjack-jetty}[http://rjack.gravitext.com/jetty]
   gem which closely tracks the upstream Jetty project, currently for
   versions 7.x and 9.x.  You can test and control the version of Jetty
   you use, for example via Bundler, independent of the Fishwife release.
@@ -53,11 +53,11 @@ See included example/config.ru and the note below on logging.
 == Logging
 
 Fishwife requires
-{rjack-slf4j}[http://rjack.rubyforge.org/slf4j/RJack/SLF4J.html] which
+{rjack-slf4j}[http://rjack.gravitext.com/slf4j/RJack/SLF4J.html] which
 provides a unified interface for Java/Ruby logging. Jetty auto-detect
 SLF4J's presence and logs there. A logging output provider must also
 be loaded. The fishwife script will load
-{rjack-logback}[http://rjack.rubyforge.org/logback/RJack/Logback.html]
+{rjack-logback}[http://rjack.gravitext.com/logback/RJack/Logback.html]
 if found or otherwise fall back to `rjack-slf4j/simple`.  If you are
 starting Fishwife through some other means than the fishwife script, you
 will need to load an output provider (see linked docs and notes in
