@@ -15,7 +15,7 @@ RJack::TarPit.specify do |s|
   s.depend 'rjack-jetty',           '>= 9.1.3', '< 9.3'
   s.depend 'rjack-slf4j',           '~> 1.7.2'
 
-  s.depend 'json',                  '~> 1.7.7',     :dev
+  s.depend 'json',                  '~> 1.8.2',     :dev
   s.depend 'rjack-logback',         '~> 1.5',       :dev
   s.depend 'rspec',                 '~> 2.13.0',     :dev
 

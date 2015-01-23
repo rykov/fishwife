@@ -10,7 +10,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.2.5)
-    json (1.7.7-java)
+    json (1.8.2-java)
     rack (1.5.2)
     rake (10.3.2)
     rdoc (4.0.1)
@@ -38,7 +38,7 @@ PLATFORMS
 
 DEPENDENCIES
   fishwife!
-  json (~> 1.7.7)
+  json (~> 1.8.2)
   rdoc (~> 4.0.1)
   rjack-logback (~> 1.5)
   rjack-tarpit (~> 2.1)
