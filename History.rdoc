@@ -1,4 +1,5 @@
-=== 1.6.1 (TBD)
+=== 1.6.1 (2015-1-24)
+* Upgrade/broaden to rack [1.5.2, 1.7). Tested with rack 1.6.0.
 
 === 1.6.0 (2014-8-20)
 * Upgrade to rjack-jetty [9.1.3, 9.3). This includes 9.2.2.0.
