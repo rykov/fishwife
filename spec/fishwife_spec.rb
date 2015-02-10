@@ -104,18 +104,18 @@ describe Fishwife do
   it "Passes along larger non-form POST body" do
     body = '<' + "f" * (93*1024) + '>'
     headers = { "Content-Type" => "text/plain" }
-    response = post("/count", nil, headers, body)
+    response = post("/dcount", nil, headers, body)
     response.code.should == "200"
-    response.body.to_i.should == body.size
+    response.body.to_i.should == body.size * 2
   end
 
   it "Passes along larger non-form POST body when chunked" do
     body = '<' + "f" * (93*1024) + '>'
     headers = { "Content-Type" => "text/plain",
                 "Transfer-Encoding" => "chunked" }
-    response = post("/count", nil, headers, StringIO.new( body ) )
+    response = post("/dcount", nil, headers, StringIO.new( body ) )
     response.code.should == "200"
-    response.body.to_i.should == body.size
+    response.body.to_i.should == body.size * 2
  end
 
   it "Rejects request body larger than maximum" do

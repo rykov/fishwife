@@ -72,8 +72,12 @@ class TestApp
     response.finish
   end
 
-  def count(request)
-    [ 200, {}, [ request.env['rack.input'].read.length.to_s ] ]
+  def dcount(request)
+    inp = request.env['rack.input']
+    dc = inp.read.length
+    inp.rewind
+    dc += inp.read.length
+    [ 200, {}, [ dc.to_s ] ]
   end
 
   def multi_headers(request)
