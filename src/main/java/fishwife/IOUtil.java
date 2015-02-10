@@ -21,7 +21,10 @@ import static org.jruby.exceptions.RaiseException.createNativeRaiseException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+
+import org.jcodings.specific.ASCIIEncoding;
 
 import org.jruby.Ruby;
 import org.jruby.RubyObject;
@@ -37,8 +40,8 @@ import org.jruby.runtime.ThreadContext;
 import org.jruby.runtime.builtin.IRubyObject;
 import org.jruby.util.ByteList;
 
-@JRubyClass( name="Fishwife::OutputUtil" )
-public class OutputUtil
+@JRubyClass( name="Fishwife::IOUtil" )
+public class IOUtil
 {
     @JRubyMethod( name = "write_file",
                   meta = true,
@@ -132,6 +135,63 @@ public class OutputUtil
 
         private final Ruby _runtime;
         private final OutputStream _out;
+    }
+
+    @JRubyMethod( name = "read_input_stream",
+                  meta = true,
+                  required = 2,
+                  argTypes = { Integer.class,
+                               InputStream.class } )
+    public static IRubyObject readInputStream( ThreadContext tc,
+                                               IRubyObject klazz,
+                                               IRubyObject blen,
+                                               IRubyObject istr,
+                                               Block block )
+    {
+        final Ruby runtime = tc.getRuntime();
+        try {
+            InputStream in = null;
+            try {
+                int max_len = (Integer) blen.toJava( Integer.class );
+                in = (InputStream) istr.toJava( InputStream.class );
+
+                // Default case (max_len == 0) we start with a small
+                // buffer to minimize GC overhead, since most requests
+                // won't have a body. If a body is found, the buffer is
+                // re-allocated larger below
+                byte[] buff = new byte[ max_len > 0 ? max_len : 128 ];
+                while( true ) {
+                    final int len = in.read( buff );
+                    if( len > 0 ) {
+                        block.call( tc, toRubyString( runtime, buff, 0, len ) );
+                        if( max_len == 0 ) {
+                            buff = new byte[ 16*1024 ];
+                            max_len = -1; // final buff
+                        }
+                    }
+                    else break;
+                }
+                return runtime.getNil();
+            }
+            finally {
+                if( in != null ) in.close();
+            }
+        }
+        catch( IOException x ) {
+            throw createNativeRaiseException( runtime, x );
+        }
+    }
+
+    public static IRubyObject toRubyString( final Ruby runtime,
+                                            final byte[] buff,
+                                            final int offset,
+                                            final int length )
+    {
+        return new RubyString( runtime,
+                               runtime.getString(),
+                               new ByteList( buff, offset, length,
+                                             ASCIIEncoding.INSTANCE,
+                                             false ) );
     }
 
 }

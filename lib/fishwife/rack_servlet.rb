@@ -15,6 +15,8 @@
 # permissions and limitations under the License.
 #++
 
+require 'tempfile'
+
 # Magic loader hook -> JRubyService
 require 'fishwife/JRuby'
 
@@ -30,16 +32,22 @@ require 'fishwife/JRuby'
 module Fishwife
   java_import 'javax.servlet.http.HttpServlet'
 
+  class RequestBodyTooLarge < RuntimeError
+  end
+
   class RackServlet < HttpServlet
     java_import 'java.io.FileInputStream'
     java_import 'org.eclipse.jetty.continuation.ContinuationSupport'
 
     ASCII_8BIT = Encoding.find( "ASCII-8BIT" ) if defined?( Encoding )
 
-    def initialize( app )
+    def initialize( app, opts = {} )
       super()
       @log = RJack::SLF4J[ self.class ]
       @app = app
+      @request_body_ram = opts[:request_body_ram] ||      256 * 1024
+      @request_body_tmpdir = opts[:request_body_tmpdir] || Dir.tmpdir
+      @request_body_max = opts[:request_body_max] || 8 * 1024 * 1024
     end
 
     # Takes an incoming request (as a Java Servlet) and dispatches it
@@ -104,6 +112,9 @@ module Fishwife
     rescue Exception => e
       @log.error( "On service: #{e}" )
       raise e
+    ensure
+      fin = env && env['fishwife.input']
+      fin.close if fin
     end
 
     private
@@ -162,16 +173,53 @@ module Fishwife
         @log.warn( "Weird headers: [#{ hn.to_s }]" )
       end
 
-      # The input stream is a wrapper around the Java InputStream.
-      input = request.getInputStream.to_io.binmode
-      input.set_encoding( ASCII_8BIT ) if input.respond_to?( :set_encoding )
-      env['rack.input'] = input
+      env['rack.input'] = env['fishwife.input'] =
+        convert_input( request.input_stream, clength )
 
       # The output stream defaults to stderr.
       env['rack.errors'] ||= $stderr
 
       # All done, hand back the Rack request.
       env
+    end
+
+    def convert_input( in_stream, clength )
+      io = StringIO.new
+      io.set_encoding( ASCII_8BIT )
+      blen = if clength > 0
+               if clength > @request_body_max
+                 raise( RequestBodyTooLarge,
+                        "Request body (Content-Length): " +
+                        "#{clength} > #{@request_body_max}" )
+               end
+               if clength < 16*1024
+                 clength
+               else
+                 16*1024
+               end
+             else
+               0 #default/unspecified
+             end
+
+      IOUtil.read_input_stream( blen, in_stream ) do |sbuf|
+        fsize = io.pos + sbuf.bytesize
+        if fsize > @request_body_max
+          raise( RequestBodyTooLarge,
+                 "Request body (read): #{fsize} > #{@request_body_max}" )
+        end
+        if io.is_a?( StringIO ) && fsize > @request_body_ram
+          tmp = Tempfile.new( 'fishwife_req_body', @request_body_tmpdir )
+          tmp.unlink
+          tmp.binmode
+          tmp.set_encoding( ASCII_8BIT )
+          tmp.write( io.string )
+          io = tmp
+        end
+        io.write( sbuf )
+      end
+
+      io.rewind
+      io
     end
 
     # Turns a Rack response into a Servlet response; can be called
@@ -228,9 +276,9 @@ module Fishwife
 
         # FIXME: Support ranges?
 
-        OutputUtil.write_file( path, output )
+        IOUtil.write_file( path, output )
       else
-        OutputUtil.write_body( body, output )
+        IOUtil.write_body( body, output )
       end
 
       # Close the body if we're supposed to.

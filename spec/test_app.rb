@@ -72,6 +72,10 @@ class TestApp
     response.finish
   end
 
+  def count(request)
+    [ 200, {}, [ request.env['rack.input'].read.length.to_s ] ]
+  end
+
   def multi_headers(request)
     [ 204, { "Warning" => %w[ warn-1 warn-2 ].join( "\n" ) }, [] ]
   end
