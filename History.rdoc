@@ -1,3 +1,5 @@
+=== 1.7.0 (TBD)
+
 === 1.6.1 (2015-1-24)
 * Upgrade/broaden to rack [1.5.2, 1.7). Tested with rack 1.6.0.
 
