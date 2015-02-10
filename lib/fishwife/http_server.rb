@@ -49,10 +49,11 @@ module Fishwife
     #     Path to where request body temporary files should be created
     #     (when request_body_ram is exceeded.)  (default: Dir.tmpdir)
     #
-    # :request_body_max
+    # :request_body_max::
     #     Maximum total size of a request body, after which the
-    #     request will be rejected with 413 status. A limit is
-    #     provided to avoid resource exhaustion. (default: 8 MiB)
+    #     request will be rejected with status 413. This limit is
+    #     provided to avoid pathologic resource exhaustion. (default: 8 MiB)
+    #
     def initialize( options = {} )
       super()
 

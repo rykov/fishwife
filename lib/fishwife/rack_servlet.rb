@@ -20,21 +20,21 @@ require 'tempfile'
 # Magic loader hook -> JRubyService
 require 'fishwife/JRuby'
 
-#
-# Wraps a Rack application in a Java servlet.
-#
-# Relevant documentation:
-#
-#     http://rack.rubyforge.org/doc/SPEC.html
-#     http://java.sun.com/j2ee/sdk_1.3/techdocs/api/javax
-#         /servlet/http/HttpServlet.html
-#
 module Fishwife
   java_import 'javax.servlet.http.HttpServlet'
 
+  # Error raised if a request body is larger than the
+  # :request_body_max option.
   class RequestBodyTooLarge < RuntimeError
   end
 
+  # Wraps a Rack application in a Java servlet.
+  #
+  # Relevant documentation:
+  #
+  # * {Rack Specification}[http://www.rubydoc.info/github/rack/rack/file/SPEC]
+  # * {Java HttpServlet}[http://docs.oracle.com/javaee/7/api/javax/servlet/http/HttpServlet.html]
+  #
   class RackServlet < HttpServlet
     java_import 'java.io.FileInputStream'
     java_import 'org.eclipse.jetty.continuation.ContinuationSupport'
