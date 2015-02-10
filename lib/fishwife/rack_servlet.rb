@@ -106,6 +106,9 @@ module Fishwife
       # If we got here, this is a continuation.
       continuation.suspend(response)
 
+    rescue RequestBodyTooLarge => e
+      @log.warn( "On service: #{e.class.name}: #{e.message}" )
+      response.sendError( 413 )
     rescue NativeException => n
       @log.warn( "On service (native): #{n.cause.to_string}" )
       raise n.cause
