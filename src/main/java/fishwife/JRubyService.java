@@ -28,12 +28,12 @@ public class JRubyService implements BasicLibraryService
     {
         RubyModule fmod = runtime.defineModule( "Fishwife" );
 
-        RubyClass ouClass =
-            fmod.defineClassUnder( "OutputUtil",
+        RubyClass ioClass =
+            fmod.defineClassUnder( "IOUtil",
                                    runtime.getObject(),
                                    ObjectAllocator.NOT_ALLOCATABLE_ALLOCATOR );
 
-        ouClass.defineAnnotatedMethods( OutputUtil.class );
+        ioClass.defineAnnotatedMethods( IOUtil.class );
 
         return true;
     }

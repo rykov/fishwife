@@ -40,6 +40,19 @@ module Fishwife
     #
     # :request_log_file::
     #     Request log to file name or :stderr (default: nil, no log)
+    #
+    # :request_body_ram::
+    #     Maximum size of request body (i.e POST) to keep in memory
+    #     before resorting to a temporary file (default: 256 KiB)
+    #
+    # :request_body_tmpdir::
+    #     Path to where request body temporary files should be created
+    #     (when request_body_ram is exceeded.)  (default: Dir.tmpdir)
+    #
+    # :request_body_max
+    #     Maximum total size of a request body, after which the
+    #     request will be rejected with 413 status. A limit is
+    #     provided to avoid resource exhaustion. (default: 8 MiB)
     def initialize( options = {} )
       super()
 
@@ -53,7 +66,8 @@ module Fishwife
       options = Hash[ options.map { |o| [ o[0].to_s.downcase.to_sym, o[1] ] } ]
 
       # Translate option values from possible Strings
-      [:port, :min_threads, :max_threads, :max_idle_time_ms].each do |k|
+      [ :port, :min_threads, :max_threads, :max_idle_time_ms,
+        :request_body_ram, :request_body_max ].each do |k|
         v = options[k]
         options[k] = v.to_i if v
       end
@@ -61,7 +75,13 @@ module Fishwife
       v = options[ :request_log_file ]
       options[ :request_log_file ] = v.to_sym if v == 'stderr'
 
-      # Apply options as setters
+      # Split out servlet options.
+      @servlet_options = {}
+      [ :request_body_ram, :request_body_tmpdir, :request_body_max ].each do |k|
+        @servlet_options[k] = options.delete(k)
+      end
+
+      # Apply remaining options as setters
       options.each do |k,v|
         setter = "#{k}=".to_sym
         send( setter, v ) if respond_to?( setter )
@@ -70,7 +90,8 @@ module Fishwife
 
     # Start the server, given rack app to run
     def start( app )
-      set_context_servlets( '/', { '/*' => RackServlet.new( app ) } )
+      set_context_servlets( '/',
+                            {'/*' => RackServlet.new(app, @servlet_options)} )
 
       @server = create
       @server.start

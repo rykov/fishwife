@@ -34,7 +34,13 @@ describe Fishwife do
     Net::HTTP.start(@options[:host], @options[:port]) do |http|
       request = Net::HTTP::Post.new(path, headers)
       request.form_data = params if params
-      request.body = body if body
+      if body
+        if body.respond_to?( :read )
+          request.body_stream = body
+        else
+          request.body = body
+        end
+      end
       http.request(request)
     end
   end
@@ -42,7 +48,10 @@ describe Fishwife do
   before(:all) do
     @lock = Mutex.new
     @app = Rack::Lint.new(TestApp.new)
-    @options = { :host => '127.0.0.1', :port => 9201 }
+    @options = { :host => '127.0.0.1',
+                 :port => 9201,
+                 :request_body_ram => 256,
+                 :request_body_max => 96 * 1024 }
     Net::HTTP.version_1_2
     @server = Fishwife::HttpServer.new(@options)
     @server.start(@app)
@@ -90,6 +99,38 @@ describe Fishwife do
     response.code.should == "200"
     content = JSON.parse(response.body)
     content['request.params']['question'].should == question
+  end
+
+  it "Passes along larger non-form POST body" do
+    body = '<' + "f" * (93*1024) + '>'
+    headers = { "Content-Type" => "text/plain" }
+    response = post("/count", nil, headers, body)
+    response.code.should == "200"
+    response.body.to_i.should == body.size
+  end
+
+  it "Passes along larger non-form POST body when chunked" do
+    body = '<' + "f" * (93*1024) + '>'
+    headers = { "Content-Type" => "text/plain",
+                "Transfer-Encoding" => "chunked" }
+    response = post("/count", nil, headers, StringIO.new( body ) )
+    response.code.should == "200"
+    response.body.to_i.should == body.size
+ end
+
+  it "Rejects request body larger than maximum" do
+    body = '<' + "f" * (100*1024) + '>'
+    headers = { "Content-Type" => "text/plain" }
+    response = post("/count", nil, headers, body)
+    response.code.should == "413"
+  end
+
+  it "Rejects request body larger than maximum in chunked request" do
+    body = '<' + "f" * (100*1024) + '>'
+    headers = { "Content-Type" => "text/plain",
+                "Transfer-Encoding" => "chunked" }
+    response = post("/count", nil, headers, StringIO.new( body ) )
+    response.code.should == "413"
   end
 
   it "passes custom headers" do
