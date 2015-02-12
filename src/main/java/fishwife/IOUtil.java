@@ -137,6 +137,17 @@ public class IOUtil
         private final OutputStream _out;
     }
 
+    /**
+     * Read all bytes of input stream, yielding Ruby String wrapped
+     * buffers to block. For efficiency, the buffer backing each
+     * String is re-used, so the yielded strings must be consumed (ex:
+     * written) and discarded inside the block. The input stream is
+     * not closed.
+     * @param blen Hint on buffer size (as when a Content-Length is
+     * specified) or 0 if no hint, default behavior.
+     * @param istr The (java) InputStream, which will not closed.
+     * @param block receiving ruby String buffers
+     */
     @JRubyMethod( name = "read_input_stream",
                   meta = true,
                   required = 2,
@@ -150,32 +161,26 @@ public class IOUtil
     {
         final Ruby runtime = tc.getRuntime();
         try {
-            InputStream in = null;
-            try {
-                int max_len = (Integer) blen.toJava( Integer.class );
-                in = (InputStream) istr.toJava( InputStream.class );
+            int max_len = (Integer) blen.toJava( Integer.class );
+            InputStream in = (InputStream) istr.toJava( InputStream.class );
 
-                // Default case (max_len == 0) we start with a small
-                // buffer to minimize GC overhead, since most requests
-                // won't have a body. If a body is found, the buffer is
-                // re-allocated larger below
-                byte[] buff = new byte[ max_len > 0 ? max_len : 128 ];
-                while( true ) {
-                    final int len = in.read( buff );
-                    if( len > 0 ) {
-                        block.call( tc, toRubyString( runtime, buff, 0, len ) );
-                        if( max_len == 0 ) {
-                            buff = new byte[ 16*1024 ];
-                            max_len = -1; // final buff
-                        }
+            // Default case (max_len == 0) we start with a small
+            // buffer to minimize GC overhead, since most requests
+            // won't have a body. If a body is found, the buffer is
+            // re-allocated larger below
+            byte[] buff = new byte[ max_len > 0 ? max_len : 128 ];
+            while( true ) {
+                final int len = in.read( buff );
+                if( len > 0 ) {
+                    block.call( tc, toRubyString( runtime, buff, 0, len ) );
+                    if( max_len == 0 ) {
+                        buff = new byte[ 16*1024 ];
+                        max_len = -1; // final buff
                     }
-                    else break;
                 }
-                return runtime.getNil();
+                else break;
             }
-            finally {
-                if( in != null ) in.close();
-            }
+            return runtime.getNil();
         }
         catch( IOException x ) {
             throw createNativeRaiseException( runtime, x );
