@@ -51,7 +51,8 @@ describe Fishwife do
     @options = { :host => '127.0.0.1',
                  :port => 9201,
                  :request_body_ram => 256,
-                 :request_body_max => 96 * 1024 }
+                 :request_body_max => 96 * 1024,
+                 :request_body_tmpdir => File.dirname( __FILE__ ) }
     Net::HTTP.version_1_2
     @server = Fishwife::HttpServer.new(@options)
     @server.start(@app)
