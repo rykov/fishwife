@@ -1,7 +1,7 @@
 === 1.7.0 (2015-2-12)
-* Added a complete implementation of a input stream rewind for
-  request bodies, per Rack requirements. This uses an in memory
-  StringIO up to a configurable threshold size before writing to a
+* Added a complete implementation of input stream rewind for request
+  bodies, per Rack requirements. This uses an in-memory StringIO
+  buffer up to a configurable threshold size before buffering to a
   TempFile.  See the associated request_body_* options of
   Fishwife::HttpServer::new. This resolves #4.
 
