@@ -1,4 +1,6 @@
-=== 1.7.1 (TBD)
+=== 1.7.1 (2015-3-30)
+* Add missing StringIO require from 1.7.0 rewind feature
+  changes (Theo Hultberg, #8)
 
 === 1.7.0 (2015-2-12)
 * Added a complete implementation of input stream rewind for request
