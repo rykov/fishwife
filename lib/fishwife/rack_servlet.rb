@@ -16,6 +16,7 @@
 #++
 
 require 'tempfile'
+require 'stringio'
 
 # Magic loader hook -> JRubyService
 require 'fishwife/JRuby'
