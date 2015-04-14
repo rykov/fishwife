@@ -16,4 +16,5 @@ spec/fishwife_spec.rb
 spec/spec_helper.rb
 spec/test_app.rb
 spec/data/hello.txt
+spec/data/localhost.keystore
 spec/data/reddit-icon.png
