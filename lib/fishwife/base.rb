@@ -15,6 +15,6 @@
 #++
 
 module Fishwife
-  VERSION = '1.7.1'
+  VERSION = '1.8.0'
   LIB_DIR = File.dirname( __FILE__ )
 end

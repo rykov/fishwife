@@ -17,4 +17,4 @@ spec/spec_helper.rb
 spec/test_app.rb
 spec/data/hello.txt
 spec/data/reddit-icon.png
-lib/fishwife/fishwife-1.7.1.jar
+lib/fishwife/fishwife-1.8.0.jar
