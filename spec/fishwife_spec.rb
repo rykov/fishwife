@@ -31,7 +31,7 @@ describe Fishwife do
       def get(path, headers = {})
         Net::HTTP.start(@options[:host], @options[:port],
                         nil, nil, nil, nil, #Irrelevant http proxy parameters
-                        @https_connection_config) do |http|
+                        @https_client_opts) do |http|
           request = Net::HTTP::Get.new(path, headers)
           http.request(request)
         end
@@ -40,7 +40,7 @@ describe Fishwife do
       def post(path, params = nil, headers = {}, body = nil)
         Net::HTTP.start(@options[:host], @options[:port],
                         nil, nil, nil, nil, #Irrelevant http proxy parameters
-                        @https_connection_config) do |http|
+                        @https_client_opts) do |http|
           request = Net::HTTP::Post.new(path, headers)
           request.form_data = params if params
           if body
@@ -56,17 +56,24 @@ describe Fishwife do
 
       before(:all) do
         @scheme = scheme
-        use_https = @scheme.eql?(:https)
-        @https_connection_config = use_https ? {:use_ssl => true, :verify_mode => OpenSSL::SSL::VERIFY_NONE} : {}
-        @https_server_config = use_https ? { :keystore => 'spec/data/localhost.keystore', :keystore_password => 'password' } : {}
-
-        @lock = Mutex.new
-        @app = Rack::Lint.new(TestApp.new)
         @options = { :host => '127.0.0.1',
                      :port => 9201,
                      :request_body_ram => 256,
                      :request_body_max => 96 * 1024,
-                     :request_body_tmpdir => File.dirname( __FILE__ ) }.merge(@https_server_config)
+                     :request_body_tmpdir => File.dirname( __FILE__ ) }
+        @https_client_opts = {}
+        if @scheme == :https
+          @https_client_opts = {
+            :use_ssl => true,
+            :verify_mode => OpenSSL::SSL::VERIFY_NONE }
+          @options[:connections] = [ {
+            :scheme => 'ssl',
+            :key_store_path => 'spec/data/localhost.keystore',
+            :key_store_password => 'password' } ]
+        end
+
+        @lock = Mutex.new
+        @app = Rack::Lint.new(TestApp.new)
         Net::HTTP.version_1_2
         @server = Fishwife::HttpServer.new(@options)
         @server.start(@app)
