@@ -17,17 +17,20 @@
 module Fishwife
   class HttpServer < RJack::Jetty::ServerFactory
 
-    attr_accessor :host
-
     # Create the server with specified options:
     #
     # :host::
-    #     String specifying the IP address to bind to (default: 0.0.0.0)
+    #     The interface to bind to (default: 0.0.0.0 -> all)
     #
     # :port::
-    #     String or integer with the port to bind to (default: 9292).
-    #     Jetty picks if given port 0 (and port can be read on return
-    #     from start.)
+    #     The local port to bind to, for the first connection. Jetty
+    #     picks if given port 0, and first connection port can be read
+    #     on return from start. (default: 9292)
+    #
+    # :connections::
+    #     An array, or a string that will be split on '|', where each
+    #     element is a connection URI String or a hash of
+    #     parameters. See details below.
     #
     # :min_threads::
     #     Minimum number of threads to keep in pool (default: 5)
@@ -54,11 +57,29 @@ module Fishwife
     #     request will be rejected with status 413. This limit is
     #     provided to avoid pathologic resource exhaustion. (default: 8 MiB)
     #
+    # === Options in connections
+    #
+    # Each member of the connections array is either a hash with
+    # the following properties or an equivalent URI string:
+    #
+    # :scheme:: Values 'tcp' or 'ssl'
+    # :host:: The local interface to bind
+    #         (default: top level #host or 0.0.0.0)
+    # :port:: Port number or 0 to select an available port
+    #         (default: top level #port for first connection or 0)
+    # :max_idle_time_ms:: See above
+    # :key_store_path:: For ssl, the path to the (Java JKS) keystore
+    # :key_store_password:: For ssl, the password to the keystore
+    #
+    # URI examples:
+    #
+    #  tcp://127.0.0.1
+    #  ssl://0.0.0.0:8443?key_store_path=keystore&key_store_password=399as8d9
+    #
     def initialize( options = {} )
       super()
 
       @server = nil
-      @host = nil
 
       self.min_threads = 5
       self.max_threads = 50
@@ -75,6 +96,9 @@ module Fishwife
 
       v = options[ :request_log_file ]
       options[ :request_log_file ] = v.to_sym if v == 'stderr'
+
+      v = options[ :connections ]
+      options[ :connections ] = v.split('|') if v.is_a?( String )
 
       # Split out servlet options.
       @servlet_options = {}
@@ -111,12 +135,5 @@ module Fishwife
     def stop
       @server.stop if @server
     end
-
-    def create_connectors( *args )
-      super.tap do |ctrs|
-        ctrs.first.host = @host if ctrs.first
-      end
-    end
-
   end
 end

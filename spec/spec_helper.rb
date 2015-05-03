@@ -26,6 +26,7 @@ RJack::Logback.root.level = RJack::Logback::DEBUG if ENV['DEBUG_LOG']
 # All dependencies for testing.
 require 'yaml'
 require 'net/http'
+require 'openssl'
 require 'rack/urlmap'
 require 'rack/lint'
 require 'fishwife'
