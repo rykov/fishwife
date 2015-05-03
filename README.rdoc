@@ -40,15 +40,21 @@ unique features:
 To use Fishwife with your Rack app and config.ru:
 
     gem install fishwife
-
     cd /path/to/my/rack/app
+
+Then:
+
     fishwife
 
 -or-
 
     rackup -s Fishwife
 
-See included example/config.ru and the note below on logging.
+See also:
+
+* Fishwife::HttpServer::new supported options
+* example/config.ru
+* Notes below on Logging and Process Monitoring
 
 == Logging
 
@@ -81,6 +87,8 @@ using:
   launcher.  Your app can also be packaged/updated as a gem if
   desired. For an example see:
   {boxed-geminabox}[https://github.com/dekellum/boxed-geminabox#readme].
+
+* Linux systemd
 
 All options also support redirecting log output (including any
 JVM-level errors) to a file. Iyyov supports log rotation internally.

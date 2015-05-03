@@ -1,4 +1,10 @@
 === 1.8.0 (TBD)
+* Added Fishwife::HttpServer::new :connections configuration, allowing
+  multiple connectors and including SSL support. (#10 with Gregory
+  Huczynski)
+* Upgrade/broaden to rjack-jetty [9.2.11, 9.4), for SSL/connections
+  support. Tested with 9.3.0.0 (M2 prerelease). Note that 9.2.11 is
+  awaiting upstream release and backport of the same features.
 
 === 1.7.1 (2015-3-30)
 * Add missing StringIO require from 1.7.0 rewind feature
