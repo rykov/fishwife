@@ -1,4 +1,4 @@
-=== 1.8.0 (TBD)
+=== 1.8.0 (2015-5-3)
 * Added Fishwife::HttpServer::new :connections configuration, allowing
   multiple connectors and including SSL support. (#10 with Gregory
   Huczynski)
