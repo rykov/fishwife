@@ -7,7 +7,7 @@ rvm:
   - jruby-1.7.20
   - jruby-head
 jdk:
-  - openjdk8
+  - oraclejdk8
 script: "bundle exec rake test"
 matrix:
   allow_failures:
