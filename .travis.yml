@@ -6,6 +6,8 @@ bundler_args: ""
 rvm:
   - jruby-1.7.19
   - jruby-head
+jdk:
+  - openjdk8
 script: "bundle exec rake test"
 matrix:
   allow_failures:
