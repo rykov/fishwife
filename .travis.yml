@@ -7,8 +7,22 @@ rvm:
   - jruby-1.7.20
   - jruby-head
 jdk:
+  - openjdk7
   - oraclejdk8
+gemfile:
+  - Gemfile
+  - Gemfile.92
 script: "bundle exec rake test"
 matrix:
+  include:
+    - rvm: jruby-1.7.20
+      jdk: openjdk7
+      gemfile: Gemfile.92
+    - rvm: jruby-1.7.20
+      jdk: oraclejdk8
+      gemfile: Gemfile
+    - rvm: jruby-head
+      jdk: oraclejdk8
+      gemfile: Gemfile
   allow_failures:
     - rvm: jruby-head
