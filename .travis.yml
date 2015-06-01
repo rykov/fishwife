@@ -3,15 +3,6 @@ before_install: "gem install rjack-tarpit -v'~>2.1' || \
       ( sleep 1; gem install rjack-tarpit -v'~>2.1' ) || \
       ( sleep 5; gem install rjack-tarpit -v'~>2.1' )"
 bundler_args: ""
-rvm:
-  - jruby-1.7.20
-  - jruby-head
-jdk:
-  - openjdk7
-  - oraclejdk8
-gemfile:
-  - Gemfile
-  - Gemfile.92
 script: "bundle exec rake test"
 matrix:
   include:
