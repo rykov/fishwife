@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fishwife (1.8.0-java)
+    fishwife (1.8.1-java)
       rack (>= 1.5.2, < 1.7)
       rjack-jetty (>= 9.2.11, < 9.4)
       rjack-slf4j (~> 1.7.2)
