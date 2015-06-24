@@ -143,16 +143,26 @@ describe Fishwife do
       it "Rejects request body larger than maximum" do
         body = '<' + "f" * (100*1024) + '>'
         headers = { "Content-Type" => "text/plain" }
-        response = post("/count", nil, headers, body)
-        response.code.should == "413"
+        begin
+          response = post("/count", nil, headers, body)
+          response.code.should == "413"
+        rescue IOError, Errno::EPIPE => e
+          # or alternatively, our send pipe breaks in mid-send
+          e.message.should match( /broken pipe/i )
+        end
       end
 
       it "Rejects request body larger than maximum in chunked request" do
         body = '<' + "f" * (100*1024) + '>'
         headers = { "Content-Type" => "text/plain",
                     "Transfer-Encoding" => "chunked" }
-        response = post("/count", nil, headers, StringIO.new( body ) )
-        response.code.should == "413"
+        begin
+          response = post("/count", nil, headers, StringIO.new( body ) )
+          response.code.should == "413"
+        rescue IOError, Errno::EPIPE => e
+          # or alternatively, our send pipe breaks in mid-send
+          e.message.should match( /broken pipe/i )
+        end
       end
 
       it "passes custom headers" do
