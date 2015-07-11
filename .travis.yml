@@ -15,5 +15,9 @@ matrix:
     - rvm: jruby-9.0.0.0.pre2
       jdk: oraclejdk8
       gemfile: Gemfile
+    - rvm: jruby-head
+      jdk: oraclejdk8
+      gemfile: Gemfile
   allow_failures:
     - rvm: jruby-9.0.0.0.pre2
+    - rvm: jruby-head
