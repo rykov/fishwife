@@ -2,6 +2,6 @@
 
 source 'https://rubygems.org'
 
-gemspec name: 'fishwife'
+gemspec
 
 gem 'rdoc', '~> 4.0.1'
