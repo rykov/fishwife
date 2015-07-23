@@ -6,10 +6,10 @@ bundler_args: ""
 script: "bundle exec rake test"
 matrix:
   include:
-    - rvm: jruby
+    - rvm: jruby-1.7.20
       jdk: openjdk7
       gemfile: Gemfile.92
-    - rvm: jruby
+    - rvm: jruby-1.7.20
       jdk: oraclejdk8
       gemfile: Gemfile
     - rvm: jruby-9.0.0.0
