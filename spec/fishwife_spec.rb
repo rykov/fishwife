@@ -146,7 +146,7 @@ describe Fishwife do
         begin
           response = post("/count", nil, headers, body)
           response.code.should == "413"
-        rescue IOError, Errno::EPIPE => e
+        rescue IOError, Errno::EPIPE, Errno::ECONNRESET => e
           # or alternatively, our send pipe breaks in mid-send
           e.message.should match( /broken pipe/i )
         end
@@ -159,7 +159,7 @@ describe Fishwife do
         begin
           response = post("/count", nil, headers, StringIO.new( body ) )
           response.code.should == "413"
-        rescue IOError, Errno::EPIPE => e
+        rescue IOError, Errno::EPIPE, Errno::ECONNRESET => e
           # or alternatively, our send pipe breaks in mid-send
           e.message.should match( /broken pipe/i )
         end
