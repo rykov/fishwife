@@ -10,12 +10,12 @@ GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.2.5)
-    json (1.8.2-java)
-    rack (1.6.0)
+    json (1.8.3-java)
+    rack (1.6.4)
     rake (10.4.2)
     rdoc (4.0.1)
       json (~> 1.4)
-    rjack-jetty (9.3.3.0-java)
+    rjack-jetty (9.3.4.0-java)
     rjack-logback (1.7.2-java)
       rjack-slf4j (>= 1.6.5, < 1.8)
     rjack-maven (3.0.5.0-java)
