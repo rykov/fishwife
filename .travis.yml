@@ -12,10 +12,11 @@ matrix:
       gemfile: Gemfile.92
     - rvm: jruby-1.7.20
       jdk: oraclejdk8
-    - rvm: jruby-9.0.0.0
+    - rvm: jruby-1.7.20
+      jdk: openjdk8
+    - rvm: jruby-9.0.4.0
       jdk: oraclejdk8
     - rvm: jruby-head
-      jdk: oraclejdk8
+      jdk: openjdk8
   allow_failures:
-    - rvm: jruby-9.0.0.0
     - rvm: jruby-head
