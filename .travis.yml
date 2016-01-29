@@ -7,12 +7,12 @@ script: "bundle exec rake test"
 sudo: false
 matrix:
   include:
-    - rvm: jruby-1.7.23
+    - rvm: jruby-1.7.24
       jdk: openjdk7
       gemfile: Gemfile.92
-    - rvm: jruby-1.7.23
+    - rvm: jruby-1.7.24
       jdk: oraclejdk8
-    - rvm: jruby-9.0.4.0
+    - rvm: jruby-9.0.5.0
       jdk: oraclejdk8
     - rvm: jruby-head
       jdk: oraclejdk8
