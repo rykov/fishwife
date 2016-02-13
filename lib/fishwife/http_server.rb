@@ -70,10 +70,17 @@ module Fishwife
     # :max_idle_time_ms:: See above
     # :key_store_path:: For ssl, the path to the (Java JKS) keystore
     # :key_store_password:: For ssl, the password to the keystore
+    # :inherit_channel:: If "true" (String) or true (TrueClass), use
+    #                    the socket bound to standard input. This can
+    #                    be used for inetd-style socket activation and
+    #                    hot deploy. It can be arranged via
+    #                    {start_server}[https://metacpan.org/pod/start_server]
+    #                    (Requires rjack-jetty 9.3.7+; Default: false)
     #
     # URI examples:
     #
     #  tcp://127.0.0.1
+    #  tcp://127.0.0.1?inherit_channel=true
     #  ssl://0.0.0.0:8443?key_store_path=keystore&key_store_password=399as8d9
     #
     def initialize( options = {} )
