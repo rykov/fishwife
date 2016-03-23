@@ -255,17 +255,18 @@ module Fishwife
         # Set the HTTP status code.
         response.setStatus(status.to_i)
 
-        # Did we get a Content-Length header?
-        content_length = headers.delete('Content-Length')
-        response.setContentLength(content_length.to_i) if content_length
-
-        # Did we get a Content-Type header?
-        content_type = headers.delete('Content-Type')
-        response.setContentType(content_type) if content_type
-
         # Add all the result headers.
         headers.each do |h, v|
-          v.split("\n").each { |val| response.addHeader(h, val) }
+          case h
+          when 'Content-Length'
+            # Did we get a Content-Length header?
+            response.setContentLength(v.to_i) if v
+          when 'Content-Type'
+            # Did we get a Content-Type header?
+            response.setContentType(v) if v
+          else
+            v.split("\n").each { |val| response.addHeader(h, val) }
+          end
         end
       end
 
@@ -276,7 +277,9 @@ module Fishwife
         path = body.to_path
 
         # Set Content-Length unless this is an async request.
-        response.setContentLength( File.size( path ) ) unless content_length
+        unless headers['Content-Length']
+          response.setContentLength( File.size( path ) )
+        end
 
         # FIXME: Support ranges?
 

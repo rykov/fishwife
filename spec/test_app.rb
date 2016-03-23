@@ -126,4 +126,8 @@ class TestApp
     response.write(checksum)
     response.finish
   end
+
+  def frozen_response(request)
+    [200, {}.freeze, [].freeze].freeze
+  end
 end
