@@ -254,6 +254,11 @@ describe Fishwife do
         lock.synchronize { buffer.count.should == 10 }
       end
 
+      it "handles frozen Rack responses" do
+        response = get("/frozen_response")
+        response.code.should == "200"
+      end
+
     end
 
   end
