@@ -1,4 +1,4 @@
-=== 1.8.1 (TBD)
+=== 1.8.1 (2016-3-30)
 * Avoid mutating the rack response headers hash as part of the special
   handling of Content-Length and Content-Type. Rack applications may
   wish to use (frozen) headers constants. (Theo Hultberg, #11)
