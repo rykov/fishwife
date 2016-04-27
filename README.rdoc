@@ -94,6 +94,19 @@ All options also support redirecting log output (including any
 JVM-level errors) to a file. Iyyov supports log rotation internally.
 Unix-like logrotate(8) may be used with the former process monitors.
 
+== Building from Source and Contributing
+
+You'll need a working Java 8+ JDK (with javac) and recent JRuby 1.7.x
+or 9.x on your PATH. Then:
+
+    jruby -S gem install rjack-tarpit -v'~> 2.1'
+    jruby -S gem install bundler
+    jruby -S bundle install
+    jruby -S bundle exec rake test
+
+This above is intentionally pedantic to hopefully minimize any
+confusion.
+
 == License
 
 Copyright (c) 2011-2016 David Kellum
