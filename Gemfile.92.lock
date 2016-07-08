@@ -44,3 +44,6 @@ DEPENDENCIES
   rjack-logback (~> 1.5)
   rjack-tarpit (~> 2.1)
   rspec (~> 2.13.0)
+
+BUNDLED WITH
+   1.12.5
