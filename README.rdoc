@@ -1,7 +1,7 @@
 = Fishwife
 
 * http://github.com/dekellum/fishwife
-* Travis CI: {<img src="https://travis-ci.org/dekellum/fishwife.png" />}[https://travis-ci.org/dekellum/fishwife]
+* Travis CI: {<img src="https://travis-ci.org/dekellum/fishwife.svg?branch=fishwife-dev" />}[https://travis-ci.org/dekellum/fishwife]
 
 == Description
 
