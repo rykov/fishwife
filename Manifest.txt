@@ -19,4 +19,4 @@ spec/test_app.rb
 spec/data/hello.txt
 spec/data/localhost.keystore
 spec/data/reddit-icon.png
-lib/fishwife/fishwife-1.8.1.jar
+lib/fishwife/fishwife-1.9.0.jar
