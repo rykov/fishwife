@@ -11,7 +11,7 @@ RJack::TarPit.specify do |s|
 
   s.add_developer( 'David Kellum', 'dek-oss@gravitext.com' )
 
-  s.depend 'rack',                  '>= 1.5.2', '< 1.7'
+  s.depend 'rack',                  '>= 1.6.4', '< 2.1'
   s.depend 'rjack-jetty',           '>= 9.2.11', '< 9.4'
   s.depend 'rjack-slf4j',           '~> 1.7.2'
 

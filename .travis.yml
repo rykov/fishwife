@@ -10,8 +10,6 @@ matrix:
     - rvm: jruby-1.7.25
       jdk: openjdk7
       gemfile: Gemfile.92
-    - rvm: jruby-1.7.25
-      jdk: oraclejdk8
     - rvm: jruby-9.1.2.0
       jdk: oraclejdk8
     - rvm: jruby-head

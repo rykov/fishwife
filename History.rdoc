@@ -1,4 +1,5 @@
 === 1.9.0 (TBD)
+* Upgrade/broaden to rack [1.6.4,2.1). Test with rack 2.0.1.
 
 === 1.8.1 (2016-3-30)
 * Avoid mutating the rack response headers hash as part of the special
