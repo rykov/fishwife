@@ -1,8 +1,5 @@
 language: ruby
-before_install: "gem install rjack-tarpit -v'~>2.1' || \
-      ( sleep 1; gem install rjack-tarpit -v'~>2.1' ) || \
-      ( sleep 5; gem install rjack-tarpit -v'~>2.1' )"
-bundler_args: ""
+before_install: "gem install rjack-tarpit -v'~>2.1'"
 script: "bundle exec rake test"
 sudo: false
 matrix:
