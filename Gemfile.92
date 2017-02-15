@@ -4,6 +4,5 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'rdoc', '~> 4.0.1'
-
+gem 'rdoc', '~> 4.3.0'
 gem 'rjack-jetty', '~> 9.2.0'
