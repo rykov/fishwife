@@ -28,10 +28,6 @@ require 'json'
 #
 # /file:: Returns a file for downloading.
 #
-# /push:: Publishes a message to async listeners.
-#
-# /pull:: Recieves messages sent via /push using async.
-#
 # A request to any endpoint not listed above will return a 404 error.
 class TestApp
   def initialize
@@ -84,33 +80,6 @@ class TestApp
     [ 204, { "Warning" => %w[ warn-1 warn-2 ].join( "\n" ) }, [] ]
   end
 
-  def push(request)
-    message = request.params['message']
-
-    @subscribers.reject! do |subscriber|
-      begin
-        response = Rack::Response.new
-        if(message.empty?)
-          subscriber.call(response.finish)
-          next(true)
-        else
-          response.write(message)
-          subscriber.call(response.finish)
-          next(false)
-        end
-      rescue java.io.IOException => error
-        next(true)
-      end
-    end
-
-    ping(request)
-  end
-
-  def pull(request)
-    @subscribers << request.env['async.callback']
-    throw(:async)
-  end
-
   def download(request)
     file = File.new( File.dirname( __FILE__ ) + "/data/reddit-icon.png" )
     def file.to_path
@@ -129,5 +98,22 @@ class TestApp
 
   def frozen_response(request)
     [200, {}.freeze, [].freeze].freeze
+  end
+
+  def hijack(request)
+    if request.env['rack.hijack?']
+      request.env['rack.hijack'].call
+      io = request.env['rack.hijack_io']
+      Thread.start do
+        io.write("hello ")
+        sleep(1)
+        io.write("world\n")
+        sleep(1)
+        io.close
+      end
+      [-1, {}, []]
+    else
+      [501, {}, []]
+    end
   end
 end
