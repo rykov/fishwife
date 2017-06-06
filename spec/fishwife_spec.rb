@@ -237,13 +237,10 @@ describe Fishwife do
         response.code.should == "200"
       end
 
-      it "handles request hijacking" do
-        read_thread = Thread.start do
-          get("/hijack")
-        end
-        response = read_thread.value
+      it "handles response hijacking" do
+        response = get("/hijack")
         response.code.should eq('200')
-        response.body.should eq('hello world')
+        response.body.should eq("hello world\n")
       end
 
     end

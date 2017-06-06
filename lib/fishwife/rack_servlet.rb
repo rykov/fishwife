@@ -66,7 +66,8 @@ module Fishwife
       env['rack.java.servlet.response'] = response
 
       rack_response = @app.call(env)
-      rack_to_servlet(rack_response, response)
+      rack_to_servlet(rack_response, request, response)
+      nil
     rescue RequestBodyTooLarge => e
       @log.warn( "On service: #{e.class.name}: #{e.message}" )
       response.sendError( 413 )
@@ -143,6 +144,11 @@ module Fishwife
       # The output stream defaults to stderr.
       env['rack.errors'] ||= $stderr
 
+      env['rack.hijack?'] = true
+      env['rack.hijack'] = lambda do
+        raise NotImplementedError, 'Only response hijacking is supported'
+      end
+
       # All done, hand back the Rack request.
       env
     end
@@ -186,9 +192,7 @@ module Fishwife
       io
     end
 
-    # Turns a Rack response into a Servlet response; can be called
-    # multiple times.  Returns true if this is the full request,
-    # false otherwise.
+    # Turns a Rack response into a Servlet response.
     #
     # Note that keep-alive *only* happens if we get either a pathname
     # (because we can find the length ourselves), or if we get a
@@ -198,22 +202,20 @@ module Fishwife
     # something *huge*.
     #
     # http://docstore.mik.ua/orelly/java-ent/servlet/ch05_03.htm
-    def rack_to_servlet(rack_response, response)
+    def rack_to_servlet(rack_response, request, response)
       # Split apart the Rack response.
       status, headers, body = rack_response
-
-      # We assume the request is finished if we got empty headers,
-      # an empty body, and we have a committed response.
-      finished = ( headers.empty? and
-                   body.respond_to?(:empty?) and body.empty?)
-      return(true) if (finished and response.isCommitted)
 
       # Set the HTTP status code.
       response.setStatus(status.to_i)
 
+      response_hijack_callback = headers['rack.hijack']
+
       # Add all the result headers.
       headers.each do |h, v|
         case h
+        when 'rack.hijack'
+          # ignore
         when 'Content-Length'
           # Did we get a Content-Length header?
           response.setContentLength(v.to_i) if v
@@ -225,29 +227,33 @@ module Fishwife
         end
       end
 
-      output = response.getOutputStream
+      if response_hijack_callback
+        hijack_io = HijackIo.new(request.start_async)
+        response_hijack_callback.call(hijack_io)
+      else
+        output = response.getOutputStream
 
-      if body.respond_to?( :to_path )
+        if body.respond_to?( :to_path )
 
-        path = body.to_path
+          path = body.to_path
 
-        unless headers['Content-Length']
-          response.setContentLength( File.size( path ) )
+          unless headers['Content-Length']
+            response.setContentLength( File.size( path ) )
+          end
+
+          # FIXME: Support ranges?
+
+          IOUtil.write_file( path, output )
+        else
+          IOUtil.write_body( body, output )
         end
 
-        # FIXME: Support ranges?
+        # Close the body if we're supposed to.
+        body.close if body.respond_to?(:close)
 
-        IOUtil.write_file( path, output )
-      else
-        IOUtil.write_body( body, output )
+        # All done.
+        output.close
       end
-
-      # Close the body if we're supposed to.
-      body.close if body.respond_to?(:close)
-
-      # All done.
-      output.close
-      false
     end
   end
 end

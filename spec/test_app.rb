@@ -102,18 +102,19 @@ class TestApp
 
   def hijack(request)
     if request.env['rack.hijack?']
-      request.env['rack.hijack'].call
-      io = request.env['rack.hijack_io']
-      Thread.start do
-        io.write("hello ")
-        sleep(1)
-        io.write("world\n")
-        sleep(1)
-        io.close
-      end
-      [-1, {}, []]
+      [200, {'rack.hijack' => method(:hijack_response)}, []]
     else
-      [501, {}, []]
+      [501, {}, ['Hijack not supported']]
+    end
+  end
+
+  private
+
+  def hijack_response(io)
+    Thread.start do
+      io.write("hello ")
+      io.write("world\n")
+      io.close
     end
   end
 end
