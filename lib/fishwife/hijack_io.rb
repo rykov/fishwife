@@ -5,7 +5,7 @@ module Fishwife
     end
 
     def write(str)
-      @async_context.response.output_stream.print(str)
+      @async_context.response.output_stream.write(str.to_java_bytes)
     end
 
     def flush
