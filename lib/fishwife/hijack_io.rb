@@ -25,19 +25,19 @@ module Fishwife
     end
 
     def read(*)
-      raise NotImplementedError, '##{__method__} on hijacked IO is not supported'
+      raise NotImplementedError, "##{__method__} on hijacked IO is not supported"
     end
 
     def read_nonblock(*)
-      raise NotImplementedError, '##{__method__} on hijacked IO is not supported'
+      raise NotImplementedError, "##{__method__} on hijacked IO is not supported"
     end
 
     def write_nonblock(*)
-      raise NotImplementedError, '##{__method__} on hijacked IO is not supported'
+      raise NotImplementedError, "##{__method__} on hijacked IO is not supported"
     end
 
     def close_read
-      raise NotImplementedError, '##{__method__} on hijacked IO is not supported'
+      raise NotImplementedError, "##{__method__} on hijacked IO is not supported"
     end
   end
 end
