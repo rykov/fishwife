@@ -14,7 +14,7 @@ GEM
     rack (2.0.1)
     rake (11.3.0)
     rdoc (4.3.0)
-    rjack-jetty (9.4.6.0-java)
+    rjack-jetty (9.3.19.0-java)
     rjack-logback (1.8.1-java)
       rjack-slf4j (~> 1.7.16)
     rjack-maven (3.0.5.0-java)
@@ -39,6 +39,7 @@ DEPENDENCIES
   fishwife!
   json (~> 1.8.2)
   rdoc (~> 4.3.0)
+  rjack-jetty (~> 9.3.19)
   rjack-logback (~> 1.5)
   rjack-tarpit (~> 2.1)
   rspec (~> 2.13.0)

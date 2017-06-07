@@ -1,4 +1,5 @@
 === 1.10.0 (TBD)
+* Broaden to rjack-jetty [9.2.11, 9.5) (tested with 9.4.6)
 
 === 1.9.0 (2017-2-13)
 * Upgrade/broaden to rack [1.6.4, 2.1). Note that the rack 2.0.1 gem
