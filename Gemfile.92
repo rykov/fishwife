@@ -6,3 +6,4 @@ gemspec
 
 gem 'rdoc', '~> 4.3.0'
 gem 'rjack-jetty', '~> 9.2.0'
+gem 'rack', '~> 1.6.4'
