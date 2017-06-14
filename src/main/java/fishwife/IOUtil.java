@@ -83,6 +83,23 @@ public class IOUtil
         }
     }
 
+    @JRubyMethod( name = "write",
+                  meta = true,
+                  required = 2,
+                  argTypes = { RubyObject.class,
+                               OutputStream.class } )
+    public static IRubyObject write( ThreadContext tc,
+                                     IRubyObject klazz,
+                                     IRubyObject data,
+                                     IRubyObject out )
+    {
+        OutputStream ostream = (OutputStream) out.toJava( OutputStream.class );
+
+        writeToOutputStream(data.convertToString(), ostream);
+
+        return tc.getRuntime().getNil();
+    }
+
     @JRubyMethod( name = "write_body",
                   meta = true,
                   required = 2,
@@ -106,6 +123,17 @@ public class IOUtil
         return tc.getRuntime().getNil();
     }
 
+    private static void writeToOutputStream(RubyString str, OutputStream out) {
+      final ByteList blist = str.getByteList();
+
+      try {
+          out.write( blist.unsafeBytes(), blist.begin(), blist.length() );
+      }
+      catch( IOException x ) {
+          throw createNativeRaiseException( str.getRuntime(), x );
+      }
+    }
+
     public static final class AppendBlockCallback implements BlockCallback
     {
         public AppendBlockCallback(Ruby runtime, OutputStream out)
@@ -118,19 +146,9 @@ public class IOUtil
                                  IRubyObject[] args,
                                  Block blk )
         {
-            try {
-                final RubyString str = args[0].convertToString();
-                final ByteList blist = str.getByteList();
+            writeToOutputStream(args[0].convertToString(), _out);
 
-                _out.write( blist.unsafeBytes(),
-                            blist.begin(),
-                            blist.length() );
-
-                return _runtime.getNil();
-            }
-            catch( IOException x ) {
-                throw createNativeRaiseException( _runtime, x );
-            }
+            return _runtime.getNil();
         }
 
         private final Ruby _runtime;

@@ -232,31 +232,15 @@ describe Fishwife do
         response.body.should == '8da4b60a9bbe205d4d3699985470627e'
       end
 
-      it "handles async requests" do
-        pending "Causes intermittent 30s pauses, TestApp.push/pull is sketchy"
-        lock = Mutex.new
-        buffer = Array.new
-
-        clients = 10.times.map do |index|
-          Thread.new do
-            Net::HTTP.start(@options[:host], @options[:port]) do |http|
-              response = http.get("/pull")
-              lock.synchronize {
-                buffer << "#{index}: #{response.body}" }
-            end
-          end
-        end
-
-        lock.synchronize { buffer.should be_empty }
-        post("/push", 'message' => "one")
-        clients.each { |c| c.join }
-        lock.synchronize { buffer.should_not be_empty }
-        lock.synchronize { buffer.count.should == 10 }
-      end
-
       it "handles frozen Rack responses" do
         response = get("/frozen_response")
         response.code.should == "200"
+      end
+
+      it "handles response hijacking" do
+        response = get("/hijack")
+        response.code.should eq('200')
+        response.body.should eq("hello world\n")
       end
 
     end
