@@ -102,7 +102,8 @@ class TestApp
 
   def hijack(request)
     if request.env['rack.hijack?']
-      [200, {'rack.hijack' => method(:hijack_response)}, []]
+      hm = request.params['ugly'] ? :ugly_response : :hijack_response
+      [200, {'rack.hijack' => method(hm)}, []]
     else
       [501, {}, ['Hijack not supported']]
     end
@@ -116,7 +117,25 @@ class TestApp
       io.flush
       io.write(" world\n")
       io.close
+    end
+  end
+
+  def ugly_response(io)
+    Thread.start do
+      sleep( rand * 0.1 )
+      io.write('h')
+      io.write('ello')
+      io.write(nil)
+      io.flush
+      io.flush
+      io.write('')
+      io.flush
+      io.write(" world\n")
+      io.write(nil)
+      io.flush
+      io.close
       io.close
     end
+    sleep( rand * 0.1 )
   end
 end

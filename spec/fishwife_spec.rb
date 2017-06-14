@@ -252,6 +252,17 @@ describe Fishwife do
         chunks.should == [ "hello", " world\n" ]
       end
 
+      it "handles ugly response hijacking" do
+        chunks = []
+        get( "/hijack?ugly=t" ) do |resp|
+          resp.code.should == '200'
+          resp.read_body do |chunk|
+            chunks << chunk
+          end
+        end
+        chunks.should == [ "hello", " world\n" ]
+      end
+
     end
 
   end
