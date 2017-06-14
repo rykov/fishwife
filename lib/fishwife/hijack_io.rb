@@ -17,8 +17,10 @@ module Fishwife
     end
 
     def close
-      @async_context.complete
-      @closed = true
+      if !@closed
+        @async_context.complete
+        @closed = true
+      end
       nil
     end
     alias_method :close_write, :close

@@ -116,6 +116,7 @@ class TestApp
       io.flush
       io.write(" world\n")
       io.close
+      io.close
     end
   end
 end
