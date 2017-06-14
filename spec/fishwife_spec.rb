@@ -28,12 +28,16 @@ describe Fishwife do
 
     describe "for #{scheme.to_s} scheme" do
 
-      def get(path, headers = {})
+      def get(path, headers = {}, &block )
         Net::HTTP.start(@options[:host], @options[:port],
                         nil, nil, nil, nil, #Irrelevant http proxy parameters
                         @https_client_opts) do |http|
           request = Net::HTTP::Get.new(path, headers)
-          http.request(request)
+          if block
+            http.request(request, &block)
+          else
+            http.request(request)
+          end
         end
       end
 
@@ -238,9 +242,14 @@ describe Fishwife do
       end
 
       it "handles response hijacking" do
-        response = get("/hijack")
-        response.code.should eq('200')
-        response.body.should eq("hello world\n")
+        chunks = []
+        get( "/hijack" ) do |resp|
+          resp.code.should == '200'
+          resp.read_body do |chunk|
+            chunks << chunk
+          end
+        end
+        chunks.should == [ "hello", " world\n" ]
       end
 
     end
