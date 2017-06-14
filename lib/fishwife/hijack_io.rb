@@ -6,6 +6,7 @@ module Fishwife
     end
 
     def write(str)
+      str = str.to_s
       IOUtil.write(str, @async_context.response.output_stream)
       str.bytesize
     end
