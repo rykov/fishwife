@@ -113,6 +113,7 @@ class TestApp
   def hijack_response(io)
     Thread.start do
       io.write("hello ")
+      io.flush
       io.write("world\n")
       io.close
     end
