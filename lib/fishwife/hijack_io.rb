@@ -9,7 +9,7 @@ module Fishwife
     end
 
     def flush
-      @async_context.response.writer.flush
+      @async_context.response.output_stream.flush
     end
 
     def close
