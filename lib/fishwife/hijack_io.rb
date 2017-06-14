@@ -7,12 +7,12 @@ module Fishwife
 
     def write(str)
       str = str.to_s
-      IOUtil.write(str, @async_context.response.output_stream)
+      IOUtil.write(str, out_stream)
       str.bytesize
     end
 
     def flush
-      @async_context.response.output_stream.flush
+      out_stream.flush
       self
     end
 
@@ -44,5 +44,12 @@ module Fishwife
     def close_read
       raise NotImplementedError, "##{__method__} on hijacked IO is not supported"
     end
+
+    private
+
+    def out_stream
+      @out_stream ||= @async_context.response.output_stream
+    end
+
   end
 end
