@@ -83,6 +83,33 @@ public class IOUtil
         }
     }
 
+    @JRubyMethod( name = "write",
+                  meta = true,
+                  required = 2,
+                  argTypes = { RubyObject.class,
+                               OutputStream.class } )
+    public static IRubyObject write( ThreadContext tc,
+                                     IRubyObject klazz,
+                                     IRubyObject data,
+                                     IRubyObject out )
+    {
+        OutputStream ostream = (OutputStream) out.toJava( OutputStream.class );
+
+        try {
+            final RubyString str = data.convertToString();
+            final ByteList blist = str.getByteList();
+
+            ostream.write( blist.unsafeBytes(),
+                           blist.begin(),
+                           blist.length() );
+
+            return tc.getRuntime().getNil();
+        }
+        catch( IOException x ) {
+            throw createNativeRaiseException( tc.getRuntime(), x );
+        }
+    }
+
     @JRubyMethod( name = "write_body",
                   meta = true,
                   required = 2,
