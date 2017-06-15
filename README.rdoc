@@ -30,6 +30,11 @@ unique features:
 * Logging is unified across Jetty, Fishwife, and your application via
   rjack-slf4j and on to any supported output adapter. (See Logging below)
 
+* Includes \Rack 1.5
+  {Hijacking}[http://www.rubydoc.info/github/rack/rack/file/SPEC#Hijacking]
+  support for asynchronous response (after headers) streaming via
+  Jetty's (Servlets 3.1) asynchronous implementation.
+
 * Rack output streaming is optimized in a custom java extension.
 
 * Simple foreground server. Compatible with several real process
