@@ -212,27 +212,24 @@ module Fishwife
       # Set the HTTP status code.
       response.setStatus(status.to_i)
 
-      response_hijack_callback = headers['rack.hijack']
+      response_hijack_callback = nil
 
       # Add all the result headers.
       headers.each do |h, v|
         case h
-        when 'rack.hijack'
-          # ignore
         when 'Content-Length'
-          # Did we get a Content-Length header?
           response.setContentLength(v.to_i) if v
         when 'Content-Type'
-          # Did we get a Content-Type header?
           response.setContentType(v) if v
+        when 'rack.hijack'
+          response_hijack_callback = v
         else
           v.split("\n").each { |val| response.addHeader(h, val) }
         end
       end
 
       if response_hijack_callback
-        hijacked_io = HijackedIO.new(request.start_async)
-        response_hijack_callback.call(hijacked_io)
+        response_hijack_callback.call( HijackedIO.new(request.start_async) )
       else
         output = response.getOutputStream
 
