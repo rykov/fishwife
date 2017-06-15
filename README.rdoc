@@ -1,4 +1,4 @@
-= Fishwife
+= \Fishwife
 
 * http://github.com/dekellum/fishwife
 * Travis CI: {<img src="https://travis-ci.org/dekellum/fishwife.svg?branch=fishwife-dev" />}[https://travis-ci.org/dekellum/fishwife]
@@ -6,38 +6,39 @@
 == Description
 
 A hard working threaded HTTP 1.1 Rack server for JRuby using
-{Jetty}[http://www.eclipse.org/jetty/] 7.x or 9.x. Fishwife deploys
+{Jetty}[http://www.eclipse.org/jetty/] 9. \Fishife deploys
 and operates like other Ruby HTTP servers/rack handlers such as
 Mongrel or Puma. No Java legacy war files (e.g. warbler) required.
 
 As compared to similar projects, most notably
 {Mizuno}[https://github.com/matadon/mizuno]
-from which it was originally forked, Fishwife offers the following
+from which it was originally forked, \Fishife offers the following
 unique features:
 
-* Depends on the {rjack-jetty}[http://rjack.gravitext.com/jetty]
-  gem which closely tracks the upstream Jetty project, currently for
-  versions 7.x and 9.x.  You can test and control the version of Jetty
-  you use, for example via Bundler, independent of the Fishwife release.
+* Depends on the {rjack-jetty}[http://rjack.gravitext.com/jetty] gem
+  which closely tracks the upstream Jetty project.  You can test and
+  control the version of Jetty you use, for example via Bundler,
+  independent of the \Fishife release.
 
-* Fishwife may itself be embedded in your own custom server/launcher
+* \Fishife may itself be embedded in your own custom server/launcher
   where you have total control over JVM options like heap size, number
   of threads, and other initialization/configuration details. For an
   example, see:
   {boxed-geminabox}[https://github.com/dekellum/boxed-geminabox#readme]
   and notes in {#6}[https://github.com/dekellum/fishwife/issues/6].
 
-* Logging is unified across Jetty, Fishwife, and your application via
-  rjack-slf4j and on to any supported output adapter. (See Logging below)
+* Logging is unified across Jetty, \Fishife, and your application via
+  rjack-slf4j and on to any supported output adapter
+  (see {Logging}[#label-Logging] below).
 
 * Rack output streaming is optimized in a custom java extension.
 
 * Simple foreground server. Compatible with several real process
-  monitors (See Process Monitoring below)
+  monitors (see {Process Monitoring}[#label-Process+Monitoring] below).
 
 == Synopsis
 
-To use Fishwife with your Rack app and config.ru:
+To use \Fishife with your \Rack app and config.ru:
 
     gem install fishwife
     cd /path/to/my/rack/app
@@ -48,17 +49,17 @@ Then:
 
 -or-
 
-    rackup -s Fishwife
+    rackup -s \Fishife
 
 See also:
 
-* Fishwife::HttpServer::new supported options
+* Fishife::HttpServer::new supported options
 * example/config.ru
 * Notes below on Logging and Process Monitoring
 
 == Logging
 
-Fishwife requires
+\Fishwife requires
 {rjack-slf4j}[http://rjack.gravitext.com/slf4j/RJack/SLF4J.html] which
 provides a unified interface for Java/Ruby logging. Jetty auto-detect
 SLF4J's presence and logs there. A logging output provider must also
@@ -71,28 +72,20 @@ will need to load an output provider (see linked docs and notes in
 
 == Process Monitoring
 
-We assume this isn't your only production ruby server and don't
-include any one-off, half-baked process control and monitoring
+We assume this isn't your only production ruby or java server and
+don't include any one-off or half-baked process control and monitoring
 features. Note that Unix-like fork(2) is not safe on the JVM and thus
 from JRuby so its not practical to support a fishwife --daemon
 flag. Fishwife simply logs to STDERR by default.  Instead consider
 using:
 
+* Linux systemd, which supports foreground processes (Type=simple)
+
 * {Bluepill}[https://github.com/arya/bluepill#readme] or God (MRI
-  Ruby) process monitors support self-forking of foreground processes,
-  for example `rackup` or `fishwife`.
+  Ruby) process monitors support foreground processes.
 
 * The {Iyyov}[https://github.com/dekellum/iyyov#readme] (JRuby)
-  process monitor supports self-daemonizing via the hashdot
-  launcher.  Your app can also be packaged/updated as a gem if
-  desired. For an example see:
-  {boxed-geminabox}[https://github.com/dekellum/boxed-geminabox#readme].
-
-* Linux systemd
-
-All options also support redirecting log output (including any
-JVM-level errors) to a file. Iyyov supports log rotation internally.
-Unix-like logrotate(8) may be used with the former process monitors.
+  process monitor supports self-daemonizing via the hashdot launcher.
 
 == Building from Source and Contributing
 
