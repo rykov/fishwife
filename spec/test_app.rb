@@ -109,6 +109,22 @@ class TestApp
     end
   end
 
+  def request_hijack(request)
+    if request.env['rack.hijack?']
+      hm = request.env['rack.hijack']
+      if hm
+        io = hm.call
+        [503, {}, ['Should not get IO: ', io.inspect]]
+      else
+        [502, {}, ['rack.hijack: ', hm.inspect]]
+      end
+    else
+      [501, {}, ['Hijack not supported']]
+    end
+  rescue NotImplementedError => e
+    [200, {}, [e.to_s]]
+  end
+
   private
 
   def hijack_response(io)

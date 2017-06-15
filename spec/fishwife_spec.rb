@@ -263,6 +263,13 @@ describe Fishwife do
         chunks.should == [ "hello", " world\n" ]
       end
 
+      it "gracefully declines request hijacking" do
+        chunks = []
+        resp = get( "/request_hijack" )
+        resp.code.should == '200'
+        resp.body.should =~ /^Only response hijacking is supported/
+      end
+
     end
 
   end
