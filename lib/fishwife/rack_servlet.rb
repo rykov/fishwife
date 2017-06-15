@@ -41,6 +41,11 @@ module Fishwife
 
     ASCII_8BIT = Encoding.find( "ASCII-8BIT" ) if defined?( Encoding )
 
+    REQ_HIJACK_NOT_SUPPORTED = lambda do
+      raise( NotImplementedError,
+             'Only response hijacking is supported, not request hijacking' )
+    end
+
     def initialize( app, opts = {} )
       super()
       @log = RJack::SLF4J[ self.class ]
@@ -145,9 +150,7 @@ module Fishwife
       env['rack.errors'] ||= $stderr
 
       env['rack.hijack?'] = true
-      env['rack.hijack'] = lambda do
-        raise NotImplementedError, 'Only response hijacking is supported'
-      end
+      env['rack.hijack'] = REQ_HIJACK_NOT_SUPPORTED
 
       # All done, hand back the Rack request.
       env
