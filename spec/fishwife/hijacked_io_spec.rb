@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Fishwife::HijackIo do
+describe Fishwife::HijackedIO do
   subject :io do
     described_class.new(async_context)
   end

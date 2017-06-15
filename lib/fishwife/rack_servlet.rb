@@ -231,8 +231,8 @@ module Fishwife
       end
 
       if response_hijack_callback
-        hijack_io = HijackIo.new(request.start_async)
-        response_hijack_callback.call(hijack_io)
+        hijacked_io = HijackedIO.new(request.start_async)
+        response_hijack_callback.call(hijacked_io)
       else
         output = response.getOutputStream
 

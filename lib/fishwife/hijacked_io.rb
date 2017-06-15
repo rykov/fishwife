@@ -1,5 +1,5 @@
 module Fishwife
-  class HijackIo
+  class HijackedIO
     def initialize(async_context)
       @async_context = async_context
       @closed = false

@@ -32,5 +32,5 @@ end
 require 'rack'
 require 'fishwife/rack_servlet'
 require 'fishwife/http_server'
-require 'fishwife/hijack_io'
+require 'fishwife/hijacked_io'
 require 'rack/handler/fishwife'
