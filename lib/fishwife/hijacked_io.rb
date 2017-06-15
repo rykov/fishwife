@@ -23,6 +23,13 @@ module Fishwife
       str.bytesize
     end
 
+    # Write the given Array of ruby ::String instances to the output
+    # stream as bytes. This is included here, because #write(ary.to_s)
+    # would otherwise result in inspect-styled output.
+    def write_array(ary)
+      IOUtil.write_body(ary, out_stream)
+    end
+
     # Flushes the underlying #output_stream and returns self.
     def flush
       out_stream.flush
