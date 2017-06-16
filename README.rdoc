@@ -54,7 +54,7 @@ Then:
 
 -or-
 
-    rackup -s \Fishwife
+    rackup -s Fishwife
 
 See also:
 
@@ -71,17 +71,17 @@ SLF4J's presence and logs there. A logging output provider must also
 be loaded. The fishwife script will load
 {rjack-logback}[http://rjack.gravitext.com/logback/RJack/Logback.html]
 if found or otherwise fall back to `rjack-slf4j/simple`.  If you are
-starting Fishwife through some other means than the fishwife script, you
+starting \Fishwife through some other means than the fishwife script, you
 will need to load an output provider (see linked docs and notes in
 {#6}[https://github.com/dekellum/fishwife/issues/6]).
 
 == Process Monitoring
 
-We assume this isn't your only production ruby or java server and
+We assume this isn't your only production Ruby or Java server and
 don't include any one-off or half-baked process control and monitoring
 features. Note that Unix-like fork(2) is not safe on the JVM and thus
 from JRuby so its not practical to support a fishwife --daemon
-flag. Fishwife simply logs to STDERR by default.  Instead consider
+flag. \Fishwife simply logs to STDERR by default.  Instead consider
 using:
 
 * Linux systemd, which supports foreground processes (Type=simple)
