@@ -1,6 +1,12 @@
 === 1.10.0 (TBD)
 * Broaden to rjack-jetty [9.2.11, 9.5) (tested with 9.4.6)
 
+* Replace the vestigial/broken `async.callback` implementation
+  with \Rack 1.5+ compliant, response (after-headers) only
+  {Hijacking}[http://www.rubydoc.info/github/rack/rack/file/SPEC#Hijacking]
+  support via `rack.hijack`, Fishwife::HijackedIO (with Theo
+  Hultberg, #15 #16 #17)
+
 === 1.9.0 (2017-2-13)
 * Upgrade/broaden to rack [1.6.4, 2.1). Note that the rack 2.0.1 gem
   lists ruby 2.2.2 as its minimum ruby version, thus you will need to

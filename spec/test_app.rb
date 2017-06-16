@@ -28,10 +28,6 @@ require 'json'
 #
 # /file:: Returns a file for downloading.
 #
-# /push:: Publishes a message to async listeners.
-#
-# /pull:: Recieves messages sent via /push using async.
-#
 # A request to any endpoint not listed above will return a 404 error.
 class TestApp
   def initialize
@@ -84,33 +80,6 @@ class TestApp
     [ 204, { "Warning" => %w[ warn-1 warn-2 ].join( "\n" ) }, [] ]
   end
 
-  def push(request)
-    message = request.params['message']
-
-    @subscribers.reject! do |subscriber|
-      begin
-        response = Rack::Response.new
-        if(message.empty?)
-          subscriber.call(response.finish)
-          next(true)
-        else
-          response.write(message)
-          subscriber.call(response.finish)
-          next(false)
-        end
-      rescue java.io.IOException => error
-        next(true)
-      end
-    end
-
-    ping(request)
-  end
-
-  def pull(request)
-    @subscribers << request.env['async.callback']
-    throw(:async)
-  end
-
   def download(request)
     file = File.new( File.dirname( __FILE__ ) + "/data/reddit-icon.png" )
     def file.to_path
@@ -129,5 +98,60 @@ class TestApp
 
   def frozen_response(request)
     [200, {}.freeze, [].freeze].freeze
+  end
+
+  def hijack(request)
+    if request.env['rack.hijack?']
+      hm = request.params['ugly'] ? :ugly_response : :hijack_response
+      [200, {'rack.hijack' => method(hm)}, []]
+    else
+      [501, {}, ['Hijack not supported']]
+    end
+  end
+
+  def request_hijack(request)
+    if request.env['rack.hijack?']
+      hm = request.env['rack.hijack']
+      if hm
+        io = hm.call
+        [503, {}, ['Should not get IO: ', io.inspect]]
+      else
+        [502, {}, ['rack.hijack: ', hm.inspect]]
+      end
+    else
+      [501, {}, ['Hijack not supported']]
+    end
+  rescue NotImplementedError => e
+    [200, {}, [e.to_s]]
+  end
+
+  private
+
+  def hijack_response(io)
+    Thread.start do
+      io.write(:hello)
+      io.flush
+      io.write(" world\n")
+      io.close
+    end
+  end
+
+  def ugly_response(io)
+    Thread.start do
+      sleep( rand * 0.1 )
+      io.write('h')
+      io.write('ello')
+      io.write(nil)
+      io.flush
+      io.flush
+      io.write('')
+      io.flush
+      io.write(" world\n")
+      io.write(nil)
+      io.flush
+      io.close
+      io.close
+    end
+    sleep( rand * 0.1 )
   end
 end

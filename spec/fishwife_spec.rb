@@ -28,12 +28,16 @@ describe Fishwife do
 
     describe "for #{scheme.to_s} scheme" do
 
-      def get(path, headers = {})
+      def get(path, headers = {}, &block )
         Net::HTTP.start(@options[:host], @options[:port],
                         nil, nil, nil, nil, #Irrelevant http proxy parameters
                         @https_client_opts) do |http|
           request = Net::HTTP::Get.new(path, headers)
-          http.request(request)
+          if block
+            http.request(request, &block)
+          else
+            http.request(request)
+          end
         end
       end
 
@@ -232,31 +236,38 @@ describe Fishwife do
         response.body.should == '8da4b60a9bbe205d4d3699985470627e'
       end
 
-      it "handles async requests" do
-        pending "Causes intermittent 30s pauses, TestApp.push/pull is sketchy"
-        lock = Mutex.new
-        buffer = Array.new
-
-        clients = 10.times.map do |index|
-          Thread.new do
-            Net::HTTP.start(@options[:host], @options[:port]) do |http|
-              response = http.get("/pull")
-              lock.synchronize {
-                buffer << "#{index}: #{response.body}" }
-            end
-          end
-        end
-
-        lock.synchronize { buffer.should be_empty }
-        post("/push", 'message' => "one")
-        clients.each { |c| c.join }
-        lock.synchronize { buffer.should_not be_empty }
-        lock.synchronize { buffer.count.should == 10 }
-      end
-
       it "handles frozen Rack responses" do
         response = get("/frozen_response")
         response.code.should == "200"
+      end
+
+      it "handles response hijacking" do
+        chunks = []
+        get( "/hijack" ) do |resp|
+          resp.code.should == '200'
+          resp.read_body do |chunk|
+            chunks << chunk
+          end
+        end
+        chunks.should == [ "hello", " world\n" ]
+      end
+
+      it "handles ugly response hijacking" do
+        chunks = []
+        get( "/hijack?ugly=t" ) do |resp|
+          resp.code.should == '200'
+          resp.read_body do |chunk|
+            chunks << chunk
+          end
+        end
+        chunks.should == [ "hello", " world\n" ]
+      end
+
+      it "gracefully declines request hijacking" do
+        chunks = []
+        resp = get( "/request_hijack" )
+        resp.code.should == '200'
+        resp.body.should =~ /^Only response hijacking is supported/
       end
 
     end

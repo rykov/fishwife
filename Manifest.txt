@@ -10,6 +10,7 @@ example/giant.ru
 example/ssl.ru
 lib/fishwife/base.rb
 lib/fishwife.rb
+lib/fishwife/hijacked_io.rb
 lib/fishwife/http_server.rb
 lib/fishwife/rack_servlet.rb
 lib/rack/handler/fishwife.rb
@@ -19,4 +20,5 @@ spec/test_app.rb
 spec/data/hello.txt
 spec/data/localhost.keystore
 spec/data/reddit-icon.png
+spec/fishwife/hijacked_io_spec.rb
 lib/fishwife/fishwife-1.10.0.jar
