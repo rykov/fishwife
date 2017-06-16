@@ -6,28 +6,28 @@
 == Description
 
 A hard working threaded HTTP 1.1 Rack server for JRuby using
-{Jetty}[http://www.eclipse.org/jetty/] 9. \Fishife deploys
+{Jetty}[http://www.eclipse.org/jetty/] 9. \Fishwife deploys
 and operates like other Ruby HTTP servers/rack handlers such as
 Mongrel or Puma. No Java legacy war files (e.g. warbler) required.
 
 As compared to similar projects, most notably
 {Mizuno}[https://github.com/matadon/mizuno]
-from which it was originally forked, \Fishife offers the following
+from which it was originally forked, \Fishwife offers the following
 unique features:
 
 * Depends on the {rjack-jetty}[http://rjack.gravitext.com/jetty] gem
   which closely tracks the upstream Jetty project.  You can test and
   control the version of Jetty you use, for example via Bundler,
-  independent of the \Fishife release.
+  independent of the \Fishwife release.
 
-* \Fishife may itself be embedded in your own custom server/launcher
+* \Fishwife may itself be embedded in your own custom server/launcher
   where you have total control over JVM options like heap size, number
   of threads, and other initialization/configuration details. For an
   example, see:
   {boxed-geminabox}[https://github.com/dekellum/boxed-geminabox#readme]
   and notes in {#6}[https://github.com/dekellum/fishwife/issues/6].
 
-* Logging is unified across Jetty, \Fishife, and your application via
+* Logging is unified across Jetty, \Fishwife, and your application via
   rjack-slf4j and on to any supported output adapter
   (see {Logging}[#label-Logging] below).
 
@@ -43,7 +43,7 @@ unique features:
 
 == Synopsis
 
-To use \Fishife with your \Rack app and config.ru:
+To use \Fishwife with your \Rack app and config.ru:
 
     gem install fishwife
     cd /path/to/my/rack/app
@@ -54,11 +54,11 @@ Then:
 
 -or-
 
-    rackup -s \Fishife
+    rackup -s \Fishwife
 
 See also:
 
-* Fishife::HttpServer::new supported options
+* Fishwife::HttpServer::new supported options
 * example/config.ru
 * Notes below on Logging and Process Monitoring
 
