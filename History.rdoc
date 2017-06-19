@@ -1,6 +1,5 @@
 === 1.10.0 (2017-6-16)
 * Broaden to rjack-jetty [9.2.11, 9.5) (tested with 9.4.6)
-
 * Replace the vestigial/broken `async.callback` implementation
   with \Rack 1.5+ compliant, response (after-headers) only
   {Hijacking}[http://www.rubydoc.info/github/rack/rack/file/SPEC#Hijacking]
