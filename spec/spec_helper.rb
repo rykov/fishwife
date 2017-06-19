@@ -49,3 +49,8 @@ class Rack::Lint
   end
 
 end
+
+RSpec.configure do |cfg|
+  cfg.expect_with(:rspec) { |c| c.syntax = :should }
+  cfg.mock_with(:rspec) { |m| m.syntax = :should }
+end

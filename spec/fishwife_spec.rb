@@ -108,9 +108,9 @@ describe Fishwife do
         response = get("/echo")
         response.code.should == "200"
         content = JSON.parse(response.body)
-        content["rack.multithread"].should be_true
-        content["rack.multiprocess"].should be_false
-        content["rack.run_once"].should be_false
+        content["rack.multithread"].should be true
+        content["rack.multiprocess"].should be false
+        content["rack.run_once"].should be false
       end
 
       it "passes form variables via GET" do
@@ -187,7 +187,7 @@ describe Fishwife do
         response = get("/echo", 'answer' => '42')
         response.code.should == "200"
         content = JSON.parse(response.body)
-        content['rack.java.servlet'].should be_true
+        content['rack.java.servlet'].should be true
       end
 
       it "is clearly Jetty" do

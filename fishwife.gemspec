@@ -17,7 +17,7 @@ RJack::TarPit.specify do |s|
 
   s.depend 'json',                  '~> 1.8.2',     :dev
   s.depend 'rjack-logback',         '~> 1.5',       :dev
-  s.depend 'rspec',                 '~> 2.13.0',     :dev
+  s.depend 'rspec',                 '~> 3.6.0',     :dev
 
   s.maven_strategy = :no_assembly
 end
