@@ -84,13 +84,14 @@ from JRuby so its not practical to support a fishwife --daemon
 flag. \Fishwife simply logs to STDERR by default.  Instead consider
 using:
 
-* Linux systemd, which supports foreground processes (Type=simple)
+* Linux {systemd}[https://www.freedesktop.org/wiki/Software/systemd/],
+  which supports foreground processes (Type=simple), and via socket
+  activation, zero-downtime restarts. See the {Guppy Sample
+  Application}[https://github.com/dekellum/guppy#readme] and its
+  configuration for systemd.
 
 * {Bluepill}[https://github.com/arya/bluepill#readme] or God (MRI
   Ruby) process monitors support foreground processes.
-
-* The {Iyyov}[https://github.com/dekellum/iyyov#readme] (JRuby)
-  process monitor supports self-daemonizing via the hashdot launcher.
 
 == Building from Source and Contributing
 
