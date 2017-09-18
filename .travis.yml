@@ -6,16 +6,16 @@ script: "bundle exec rake test"
 dist: trusty
 matrix:
   include:
-    - rvm: jruby-1.7.26
+    - rvm: jruby-1.7.27
       jdk: openjdk7
       gemfile: Gemfile.92
       dist: precise
-    - rvm: jruby-9.1.9.0
+    - rvm: jruby-9.1.13.0
       jdk: oraclejdk8
       gemfile: Gemfile.93
-    - rvm: jruby-9.1.9.0
+    - rvm: jruby-9.1.13.0
       jdk: oraclejdk8
-    - rvm: jruby-9.1.9.0
+    - rvm: jruby-9.1.13.0
       jdk: openjdk8
     - rvm: jruby-head
       jdk: oraclejdk8
