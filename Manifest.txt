@@ -21,4 +21,4 @@ spec/data/hello.txt
 spec/data/localhost.keystore
 spec/data/reddit-icon.png
 spec/fishwife/hijacked_io_spec.rb
-lib/fishwife/fishwife-1.10.0.jar
+lib/fishwife/fishwife-1.10.1.jar
