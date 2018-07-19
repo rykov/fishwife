@@ -9,12 +9,12 @@ matrix:
       jdk: openjdk7
       gemfile: Gemfile.92
       dist: precise
-    - rvm: jruby-9.1.16.0
+    - rvm: jruby-9.1.17.0
       jdk: oraclejdk8
       gemfile: Gemfile.93
-    - rvm: jruby-9.1.16.0
+    - rvm: jruby-9.1.17.0
       jdk: oraclejdk8
-    - rvm: jruby-9.1.16.0
+    - rvm: jruby-9.1.17.0
       jdk: openjdk8
     - rvm: jruby-head
       jdk: oraclejdk8
