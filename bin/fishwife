@@ -31,5 +31,7 @@ end
 require 'fishwife'
 
 server = Rack::Server.new
-server.options[:server] = 'Fishwife'
+opts = server.options
+opts[:server] = 'Fishwife'
+server.options = opts
 server.start
