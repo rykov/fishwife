@@ -1,5 +1,5 @@
 #--
-# Copyright (c) 2017 Theo Hultberg, David Kellum
+# Copyright (c) 2017-2018 Theo Hultberg, David Kellum
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you
 # may not use this file except in compliance with the License.  You may
