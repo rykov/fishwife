@@ -5,10 +5,6 @@ sudo: false
 dist: trusty
 matrix:
   include:
-    - rvm: jruby-1.7.27
-      jdk: openjdk7
-      gemfile: Gemfile.92
-      dist: precise
     - rvm: jruby-9.1.17.0
       jdk: oraclejdk8
       gemfile: Gemfile.93
