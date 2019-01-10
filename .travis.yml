@@ -14,6 +14,9 @@ matrix:
       jdk: oraclejdk8
     - rvm: jruby-9.1.17.0
       jdk: openjdk8
+    - rvm: jruby-9.1.17.0
+      jdk: openjdk10
+      dist: xenial
     - rvm: jruby-head
       jdk: oraclejdk8
   allow_failures:
