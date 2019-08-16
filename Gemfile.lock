@@ -14,7 +14,7 @@ GEM
     rack (2.0.6)
     rake (12.3.2)
     rdoc (4.3.0)
-    rjack-jetty (9.4.14.0-java)
+    rjack-jetty (9.4.20.0-java)
     rjack-logback (1.9.0-java)
       rjack-slf4j (~> 1.7.16)
     rjack-maven (3.0.5.0-java)
